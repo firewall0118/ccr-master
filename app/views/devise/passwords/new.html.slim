@@ -1,0 +1,18 @@
+.auth-form.center
+  = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "panel panel-dark" }) do |f|
+    .panel-heading
+      h4.text-center CHILDCARE RESOURCES
+    .panel-body
+      p.text-center PASSWORD RESET
+      p.text-center Fill with your mail to receive instructions on how to reset your password.
+      = render "shared/form_errors", resource: resource
+
+      .form-group
+        = f.label :email, "Email Address"
+        = f.email_field :email, class: "form-control"
+
+      .form-group
+        = f.button :submit, "Reset Password", class: "btn btn-danger col-sm-12"
+
+      .text-center
+        = render "devise/shared/links"

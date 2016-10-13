@@ -1,0 +1,57 @@
+// ### Variables
+@import "bootstrap/variables"; // Default _variables.scss
+@import "scss/variables";
+
+// ### Bootstrap"s mixins
+@import "bootstrap/mixins";
+
+// ### Animate.css
+@import "libs/animate.scss";
+@import "bootstrap";
+
+// ### Pixel Admin"s stylesheets
+@import "scss/mixins";
+@import "scss/base";
+@import "scss/main_navbar";
+@import "scss/main_menu";
+@import "scss/navbar";
+@import "scss/buttons";
+@import "scss/progress_bars";
+@import "scss/labels";
+@import "scss/badges";
+@import "scss/breadcrumb";
+@import "scss/alerts";
+@import "scss/tables";
+@import "scss/navs";
+@import "scss/dropdowns";
+@import "scss/button_groups";
+@import "scss/pagination";
+@import "scss/list_groups";
+@import "scss/forms";
+@import "scss/input_groups";
+@import "scss/panels";
+@import "scss/wells";
+@import "scss/popovers";
+@import "scss/tooltips";
+@import "scss/modals";
+@import "scss/accordions";
+@import "scss/notes";
+@import "scss/counters";
+@import "scss/colors";
+@import "scss/stats";
+@import "scss/utils";
+// jQuery UI
+
+
+// Plugins
+//
+
+@import "scss/plugins/bootstrap_datepicker";
+
+@import "scss/plugins/bootbox";
+@import "scss/plugins/easy_pie_chart";
+@import "scss/plugins/jquery.datatables";
+@import "scss/plugins/jquery.growl";
+@import "scss/plugins/slim_scroll";
+
+@import "scss/pages/timeline";

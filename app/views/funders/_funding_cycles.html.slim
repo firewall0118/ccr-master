@@ -1,0 +1,22 @@
+a.btn.btn-labeled.btn-primary href="#{new_funder_funding_cycle_path(@funder)}" style="margin-bottom: 18px;"
+  span class="btn-label icon fa fa-plus"
+  '  Add funding cycle to Funder
+
+table.table.table-striped.table-hover
+  thead
+    tr
+      th ID
+      th Amount
+      th Start date
+      th End date
+      th
+  tbody
+    - @funder.funding_cycles.each do |funding_cycle|
+      tr
+        td= funding_cycle.id
+        td= number_to_currency funding_cycle.amount
+        td= funding_cycle.start_date
+        td= funding_cycle.end_date
+        td
+          = link_to "Delete", funding_cycle_path(funding_cycle), class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure to remove this?" }
+

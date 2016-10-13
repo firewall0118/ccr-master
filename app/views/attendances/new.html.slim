@@ -1,0 +1,51 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li.active
+      a href="#"
+        | Add Monthly Attendance Data
+
+div ng-controller="AttendanceCtrl" ng-init="init(#{Provider.first.id})"
+  .row
+    .form-group.col-md-3
+      label.control-label.col-sm-4.text-right style="padding-top: 8px" Provider
+      .col-sm-8
+        = select_tag :provider_id, options_from_collection_for_select(Provider.all.order(:name), :id, :name), class: "form-control", "ng-model"=>"provider_id", "ng-change"=>"getAttendances()"
+    .form-group.col-md-3
+      label.control-label.col-sm-4.text-right style="padding-top: 8px" Year
+      .col-sm-8
+        = select_tag :year, options_for_select((Date.today.year-2)..Date.today.year), {class: "form-control", "ng-model"=>"year", "ng-change"=>"getAttendances()"}
+    .form-group.col-md-3
+      label.control-label.col-sm-4.text-right style="padding-top: 8px" Month
+      .col-sm-8
+        = select_month params[:month].to_i, {field_name: "month", prefix: ''}, {class: "form-control", "ng-model"=>"month", "ng-change"=>"getAttendances()"}
+    a.btn.btn-warning ng-click="closeMonth()" ng-if="!isClosed()" Close Month
+    | &nbsp;
+    span.label.label-info.btn-sm style="margin-top: 5px;" ng-if="isClosed()" CLOSED
+  .panel style="min-height: 350px"
+    .panel-body
+      table.table.table-hover
+        thead
+          tr
+            th Child Name
+            th Age
+            th Gender
+            th FT / PT
+            th Age Group
+            th Days Attended
+            th
+        tbody
+          tr ng-repeat="attendance in attendances"
+            td
+              span ng-bind="attendance.contract.child.full_name"
+            td ng-bind="attendance.contract.child.current_age"
+            td ng-bind="attendance.contract.child.gender"
+            td ng-bind="attendance.contract.care_provided"
+            td ng-bind="attendance.contract.child.age_group"
+            td style="width: 13em;"
+              input.form-control.text-right autofocus="true" ng-model="attendance.days" ng-blur="updateAttendance(attendance)" type="number" ng-disabled="attendance.closed"
+            td style="width: 5em;"
+              a.label.label-success ng-show="attendance.saved" Saved!
+      .alert.alert-info ng-if="attendances.length==0" There is no available contracts in this month.

@@ -1,0 +1,11 @@
+.panel-heading
+  span.panel-title
+    i class="panel-title-icon fa fa-user"
+    | Case information
+
+.panel-body
+  .form-group
+    = f.label :case_id, class: "col-sm-2 control-label", label: "Case ID"
+    .col-sm-10
+      = f.input_field :case_id,  class: "form-control"
+

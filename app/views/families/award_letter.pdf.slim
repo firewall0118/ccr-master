@@ -1,0 +1,98 @@
+- contract = @contract
+- provider = contract.provider
+- total_amount = total_parent_fee = total_subsidy = 0
+= render "shared/ccr_header"
+
+h4.text-center
+  strong SCCP-CERTIFICATION OF CHILD CARE AWARD
+
+p #{Date.today.to_s}
+.clearfix
+  .pull-left style="width: 70%"
+    p= @family.first_parent.full_name
+    p= @family.first_parent.street
+    p= @family.first_parent.city_state_zip
+  .pull-left
+    p Case ID: #{@family.id}
+    p Parent County: #{@family.first_parent.county.try(:name)}
+
+br
+br
+h4.text-center This is your authorization to be presented to your child care provider
+br
+h4.text-center
+  b PERIOD OF CERTIFICATION
+
+.text-center style="font-size: 14px" From #{contract.start_date.to_date} Through #{contract.end_date.to_date}
+strong
+  p= provider.name
+  p= provider.street
+  p= provider.mailing_address
+table.table
+  thead
+    tr
+      th rowspan="2" Child Name
+      th.w-sm rowspan="2"
+        ' Start
+        br
+        ' Date
+      th.w-sm rowspan="2" Care Level
+      th.w-sm rowspan="2" Schedule Type
+      th.w-sm rowspan="2" Prov Rate
+      th.w-sm rowspan="2" Parent Fee
+      th.w-sm rowspan="2" Net Subsidy
+      th.text-center colspan="6" style="padding: 0" Schedule
+    tr
+      th M
+      th T
+      th W
+      th T
+      th F
+      th S
+      th S
+  tbody
+    - weekly_rate = contract.weekly_rate
+    - weekly_parent_fee = contract.weekly_parent_fee
+    - weekly_subsidy = contract.weekly_subsidy
+
+    tr
+      td style="width: 140px"= contract.child.full_name
+      td= contract.start_date.to_s
+      td style="width: 140px"= contract.child.age_group.try(:name)
+      td= contract.is_full_time ? "FT" : "PT"
+      td= number_to_currency weekly_rate
+      td= number_to_currency weekly_parent_fee
+      td= number_to_currency weekly_subsidy
+      td= contract.is_full_time ? "FT" : "PT"
+      td= contract.is_full_time ? "FT" : "PT"
+      td= contract.is_full_time ? "FT" : "PT"
+      td= contract.is_full_time ? "FT" : "PT"
+      td= contract.is_full_time ? "FT" : "PT"
+      td __
+      td __
+    tr
+      td.text-right colspan="4" TOTAL
+      td= number_to_currency weekly_rate
+      td= number_to_currency weekly_parent_fee
+      td colspan="8"= number_to_currency weekly_subsidy
+br
+b Payment is not authorized beyond the above Period of Certification
+.clearfix
+  .pull-left style="width: 70%"
+    br
+    p ______________________
+    p CHILDCARE RESOURCES
+    p Telephone Extension ___________
+    br
+  .pull-left
+    br
+    p ___________________
+    p Date
+p Comments:
+/ - notes = @family.family_notes.with_category(:award_letter)
+/ - if @family.redeterminated_at.present?
+/   - dates = family_dates(@start_date, @end_date, @family)
+/   - note = notes.last # by_period(dates[@period_idx], dates[@period_idx + 1]).
+/   p= note.try(:content)
+
+/ .page-break

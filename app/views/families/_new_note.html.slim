@@ -1,0 +1,10 @@
+.clearfix
+  .widget-article-comments
+    .comment
+      .comment-body
+        = simple_form_for @note, html: { class: "form-horizontal comment-text no-padding no-border expanding-input expanded" } do |f|
+          = f.input_field :category, as: :hidden, value: category
+          = f.input_field :family_id, as: :hidden, value: @family.id
+          = f.input_field :content, class: "form-control expanding-input-target", placeholder: "Write message", rows: 3
+          .expanding-input-hidden.expanding-input-content style=("margin-top: 10px;")
+            button.btn.btn-primary.pull-right Add Comment

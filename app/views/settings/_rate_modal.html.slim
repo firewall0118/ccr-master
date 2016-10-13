@@ -1,0 +1,44 @@
+.modal.fade role="dialog" id="rate-#{rate.id}"
+  = simple_form_for rate, url: update_county_rate_setting_path(rate), html: {method: :put, class: 'form-horizontal' } do |f|
+    .modal-dialog
+      .modal-content
+        .modal-header
+          a.close data-dismiss="modal" ×
+          h5.text-left Edit County Rate
+        .modal-body
+          .form-group
+            = f.label :full_time_infant_weekly_rate, class: "col-sm-5 control-label"
+            .col-sm-7
+              = f.input_field :full_time_infant_weekly_rate, class: "form-control"
+          .form-group
+            = f.label :part_time_infant_weekly_rate, class: "col-sm-5 control-label"
+            .col-sm-7
+              = f.input_field :part_time_infant_weekly_rate, class: "form-control"
+          .form-group
+            = f.label :full_time_toddler_weekly_rate, class: "col-sm-5 control-label"
+            .col-sm-7
+              = f.input_field :full_time_toddler_weekly_rate, class: "form-control"
+          .form-group
+            = f.label :part_time_toddler_weekly_rate, class: "col-sm-5 control-label"
+            .col-sm-7
+              = f.input_field :part_time_toddler_weekly_rate, class: "form-control"
+          .form-group
+            = f.label :full_time_preschool_weekly_rate, class: "col-sm-5 control-label"
+            .col-sm-7
+              = f.input_field :full_time_preschool_weekly_rate, class: "form-control"
+          .form-group
+            = f.label :part_time_preschool_weekly_rate, class: "col-sm-5 control-label"
+            .col-sm-7
+              = f.input_field :part_time_preschool_weekly_rate, class: "form-control"
+          .form-group
+            = f.label :full_time_school_weekly_rate, class: "col-sm-5 control-label"
+            .col-sm-7
+              = f.input_field :full_time_school_weekly_rate, class: "form-control"
+          .form-group
+            = f.label :part_time_school_weekly_rate, class: "col-sm-5 control-label"
+            .col-sm-7
+              = f.input_field :part_time_school_weekly_rate, class: "form-control"
+
+        .modal-footer
+          = f.submit "Update", :class => "btn btn-primary"
+          a.btn.btn-default data-dismiss="modal" href="#" Cancel

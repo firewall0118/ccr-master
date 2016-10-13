@@ -1,0 +1,26 @@
+table.table
+  thead
+    tr
+      th ID
+      th Child
+      th Provider
+      th Funder
+      th Weekly Parent Fee
+      th Weekly Subsidy
+      th Start date
+      th End date
+      th Status
+  tbody
+    - for contract in @contracts
+      tr
+        td= contract.id
+        td= contract.child.full_name
+        td
+          = contract.provider.name if contract.provider
+        td
+          = contract.funder.name if contract.funder
+        td= number_to_currency contract.weekly_parent_fee
+        td= number_to_currency contract.weekly_subsidy
+        td= contract.start_date.to_s
+        td= contract.end_date.to_s
+        td= contract.state.to_s

@@ -1,0 +1,15 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li
+      a href="#{families_path}"
+        | Families
+    li.active
+      a href="#{new_family_path}"
+        | New Family
+
+.row
+  .col-sm-12
+    = render "form"

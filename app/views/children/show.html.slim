@@ -1,0 +1,29 @@
+
+= render "families/breadcrumb", active: :child
+- if !@family.is_within_income_scale? and @family.children_count > 0
+  .alert.alert-danger
+    p
+      strong Warning!
+      '  Family total income is outside of the eligibility scale.
+- unless @family.weekly_availability >= 35
+  .alert.alert-danger
+    p
+      strong Warning!
+      '  Family does not meet minimum hours of work per week requirement.
+
+.row ng-controller="ContractCtrl" ng-init="child_id=#{@child.id}; getContracts();"
+  .col-sm-12
+    .panel
+      .panel-heading
+        span.panel-title
+          i class="panel-title-icon fa fa-user"
+          | Contracts
+
+      .panel-body style="min-height: 300px"
+        a.btn.btn-labeled.btn-primary ng-click="addContract()"
+          span class="btn-label icon fa fa-plus"
+          '  Assign Child to Provider and Funding Source
+
+        = render "contracts/contracts", editable: true
+
+  = render "contracts/modal"

@@ -1,0 +1,54 @@
+h3.panel-title Rates & Discounts
+.clearfix
+  table.table.table-striped.table-hover border="0" cellpadding="0" cellspacing="0"
+    thead
+      tr
+        th Age Group
+        th Parttime
+        th Fulltime
+    tbody
+        tr
+          td Infant
+          td
+            = number_to_currency p.try(:part_time_infant_weekly_rate)
+          td= number_to_currency p.try(:full_time_infant_weekly_rate)
+        tr
+          td Preschool
+          td= number_to_currency p.try(:part_time_preschool_weekly_rate)
+          td= number_to_currency p.try(:full_time_preschool_weekly_rate)
+        tr
+          td Toddler
+          td= number_to_currency p.try(:part_time_toddler_weekly_rate)
+          td= number_to_currency p.try(:full_time_toddler_weekly_rate)
+        tr
+          td School
+          td= number_to_currency p.try(:part_time_school_weekly_rate)
+          td= number_to_currency p.try(:full_time_school_weekly_rate)
+
+.clearfix
+  - if p.try(:has_sibling_discounts)
+    p
+      strong Fulltime Flat Discount:
+      '  #{number_to_currency p.try(:full_time_sibling_discount_flat_amount)}
+    p
+      strong Fulltime Percentage Discount:
+      '  #{p.try(:full_time_sibling_discount_percentage)}%
+    p
+      strong Part-time Flat Discount:
+      '  #{number_to_currency p.try(:part_time_sibling_discount_flat_amount)}
+    p
+      strong Part-time Percentage Discount:
+      '  #{p.try(:sibling_discount_part_time_percentage)}%
+
+    p
+      strong Discount Notes:
+      '  #{p.try(:additional_discount_notes)}
+  - else
+    .alert.alert-info  Provider has no discounts.
+
+.text-right
+  a.btn.btn-primary href="#{provider_provider_rates_path(@provider)}"
+    span.btn-label.icon.fa.fa-money
+    '  Historical Rates
+br
+br

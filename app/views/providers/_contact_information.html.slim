@@ -1,0 +1,26 @@
+.panel
+  .panel-heading
+      span.panel-title
+        i class="panel-title-icon fa fa-user"
+        | Contact Information
+  .panel-body
+    .form-group
+      = f.label :email, class: "col-sm-4 control-label"
+      .col-sm-8
+        = f.input_field :email, class: "form-control", pattern: false
+    .form-group
+      = f.label :phone_number, class: "col-sm-4 control-label"
+      .col-sm-8
+        = f.input_field :phone_number, class: "form-control", pattern: false
+    .form-group
+      = f.label :alternate_phone_number, class: "col-sm-4 control-label"
+      .col-sm-8
+        = f.input_field :alternate_phone_number, class: "form-control", pattern: false
+    .form-group
+      = f.label :fax_number, class: "col-sm-4 control-label"
+      .col-sm-8
+        = f.input_field :fax_number, class: "form-control", pattern: false
+    .form-group
+      = f.label :website, class: "col-sm-4 control-label"
+      .col-sm-8
+        = f.input_field :website, class: "form-control", pattern: false

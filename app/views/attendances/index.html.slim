@@ -1,0 +1,19 @@
+- if request.path =~ /print/
+  .hidden-print
+    .fixed-top-bar.white
+      a.btn style="margin-left:2em;margin-top:2em;" href="javascript:window.print();"
+        i.fa.fa-print style="font-size:3em;"
+      hr
+    .top-bar-spacer
+- else
+  .row= link_to "Print version", print_attendances_path(params)
+
+
+- @providers.each.with_index do |provider, i|
+  .hidden-print
+    .text-center
+      b Page #{i + 1}
+  = render "each_provider", provider: provider
+  .hidden-print
+    hr
+  .page-break

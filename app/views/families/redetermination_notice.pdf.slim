@@ -1,0 +1,91 @@
+= render "shared/ccr_header"
+css:
+  table td{
+    height: 22px !important;
+    padding: 0 !important;
+  }
+
+h4.text-center
+  strong
+    u REDETERMINATION NOTICE
+p #{Date.today.to_s}
+br
+.clearfix
+  .pull-left style="width: 70%"
+    p= @family.first_parent.full_name
+    p= @family.first_parent.street
+    p= @family.first_parent.city_state_zip
+  .pull-left
+    p Case ID: #{@family.id}
+    p Parent County: #{@family.first_parent.county.try(:name)}
+
+br
+br
+p Dear #{@family.first_parent.first_name},
+br
+br
+p
+  | It's time to recertify your eligibility for our Supplemental Child Care Program (SCCP) financial assistance. Your eligibility expires
+  b  #{@family.redetermination_due_date.end_of_month.to_s}.
+  |  You must submit, via mail or drop-off the following documentation on or before
+  |  #{(@family.redetermination_due_date.beginning_of_month + 14.days).to_s}
+
+div style="margin-left: 30px"
+br
+  p
+    | 1.
+    b  Redetermination Form -
+    |  Completed and signed
+  br
+  p
+    | 2.
+    b  Pay Stub -
+    |  Copies your last four (4) most current
+  br
+  p
+    | 3.
+    b  Documentation of all other sources of family income
+    |  such as SSI, SSA, alimony
+    br
+    b
+      | &nbsp;&nbsp;note: &nbsp;
+      u
+        em child support is no longer considered income. Do not send!
+  br
+  p
+    | 4.
+    b  #{Date.today.year - 1}
+    |  Federal Tax Return
+  br
+  p
+    | 5.
+    b  Proof of Residence-current
+    |  copy of lease or morgage,
+    b
+      |  if&nbsp;
+      u not
+      |  previously provided
+  br
+
+p
+  | Please return all green form and copies of your supporting documents. It is imperative that you submit
+  b  all
+  |  documentation in a timely manner because late submittals will not be processed.&nbsp;
+  u
+    | Your eligibility will be terminated as of
+    b  #{(@family.redetermination_due_date.beginning_of_month + 1.month).to_s}
+    |  if the information is not received by the requested date,
+    b  #{(@family.redetermination_due_date.beginning_of_month + 14.days).to_s}.
+br
+p Thank your for your prompt attention to this matter. I look forward to hearing from you soon and continue to work with you to "make quality childcare happen."
+br
+p Sincerely,
+br
+br
+
+p #{current_user.full_name}
+p #{current_user.job}
+p Supplemental Child Care Program (SCCP)
+p Childcare Resources
+p #{current_user.email}
+p #{current_user.phone_number} ext. #{current_user.phone_ext}

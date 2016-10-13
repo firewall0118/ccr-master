@@ -1,0 +1,85 @@
+p
+  strong First Name:
+  '  #{parent.first_name}
+p
+  strong Last Name:
+  '  #{parent.last_name}
+p
+  strong Date of Birth:
+  '  #{parent.date_of_birth.to_s}
+p
+  strong Gender:
+  '  #{parent.gender}
+p
+  strong Race:
+  '  #{parent.race}
+p
+  strong Marital Status:
+  '  #{parent.marital_status}
+p
+  strong Has Custody:
+  '  #{parent.has_custody}
+p
+  strong County of Residence:
+  '  #{parent.county.name}
+br
+p
+  strong Home Phone Number:
+  '  #{parent.phone_number_home}
+p
+  strong Mobile Phone Number:
+  '  #{parent.phone_number_mobile}
+p
+  strong Work Phone Number:
+  '  #{parent.phone_number_work}
+p
+  strong Email:
+  '  #{parent.email}
+br
+p
+  strong Total Work Hours:
+  '  #{parent.weekly_availability}
+p
+  strong Total Annual Income:
+  '  #{number_to_currency parent.annual_income}
+br
+p
+  strong 1st Job:
+  '  #{parent.first_job_employer_name}
+p
+  strong Average Hours Worked:
+  '  #{parent.first_job_weekly_availability}
+p
+  strong Hourly Rate:
+  '  #{number_to_currency parent.first_job_hourly_rate}/hr
+p
+  strong Annual Income:
+  '  #{number_to_currency parent.current_first_job_annual_income}
+- unless parent.second_job_employer_name.blank?
+  br
+  p
+    strong 2nd Job:
+    '  #{parent.second_job_employer_name}
+  p
+    strong Average Hours Worked:
+    '  #{parent.second_job_weekly_availability}
+  p
+    strong Hourly Rate:
+    '  #{number_to_currency parent.second_job_hourly_rate}/hr
+  p
+    strong Annual Income:
+    '  #{number_to_currency parent.current_second_job_annual_income}
+- unless parent.third_job_employer_name.blank?
+  br
+  p
+    strong 3rd Job:
+    '  #{parent.third_job_employer_name}
+  p
+    strong Average Hours Worked:
+    '  #{parent.third_job_weekly_availability}
+  p
+    strong Hourly Rate:
+    '  #{number_to_currency parent.third_job_hourly_rate}/hr
+  p
+    strong Annual Income:
+    '  #{number_to_currency parent.current_third_job_annual_income}

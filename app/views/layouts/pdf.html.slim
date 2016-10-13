@@ -1,0 +1,43 @@
+doctype html
+html
+  head
+    meta charset="utf8"
+
+    = wicked_pdf_stylesheet_link_tag "application"
+    - if content_for?(:head)
+      = content_for(:head)
+    css:
+      body {
+        font-size: 12px;
+        font-family: "Times New Roman", Times, Serif;
+        color: black !important;
+      }
+
+      h3 {
+        font-size: 24px;
+      }
+
+      .page-break { display:block; clear:both; page-break-after:always; }
+
+      .table > thead > tr > th {
+        border: none;
+        vertical-align: middle;
+        font-weight: normal;
+      }
+
+      .table > tbody > tr:nth-child(1) > td {
+        border-top: 1px solid black;
+      }
+
+      .table > tbody > tr > td {
+        border-top: 1px dashed black;
+      }
+
+      .w-sm {
+        width: 60px;
+      }
+      p {
+        margin: 0;
+      }
+  body
+    = yield

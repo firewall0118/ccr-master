@@ -1,0 +1,44 @@
+.children ng-controller="ChildrenCtrl"
+  table.table.table-hover ng-init="getChildren(#{@family.id})"
+    thead
+      tr
+        th ID
+        th Name
+        th Relationship
+        th Date of Birth
+        th Gender
+        th Effectively Weekly Rate
+        th Parent Weekly fee
+        th Weekly Subsidy
+        th Discount
+        th Status
+        th style="width:135px" Action
+
+    tbody
+      tr ng-repeat="child in children"
+        td ng-bind="child.id"
+        td
+          a href="/families/#{@family.id}/children/{{child.id}}" ng-bind="child.full_name"
+        td ng-bind="child.relationship"
+        td ng-bind="child.date_of_birth | date: 'MM/dd/yyyy'"
+        td ng-bind="child.gender"
+        td
+          span ng-bind="child.current_contract.weekly_rate | currency"
+          span ng-bind="child.current_contract.rate_source"
+        td ng-bind="child.current_contract.weekly_parent_fee | currency"
+        td ng-bind="child.current_contract.weekly_subsidy | currency"
+        td ng-bind="child.current_contract.discount | currency"
+        td ng-bind="child.current_contract.state"
+        td
+          a.btn.btn-default href="/families/#{@family.id}/children/{{child.id}}" data-toggle="tooltip" data-placement="left" title="Manage Contract"
+            i.fa.fa-cog
+          a.btn.btn-info ng-click="editChild(child)"
+            i.fa.fa-edit
+          a.btn.btn-danger ng-click="deleteChild(child)"
+            i.fa.fa-trash-o
+  .form-group
+    a.btn.btn-labeled.btn-primary.pull-left ng-click="addChild()"
+      span class="btn-label icon fa fa-plus"
+      '  New Child
+  = render "children/modal"
+  = render "contracts/modal"

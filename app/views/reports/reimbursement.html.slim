@@ -1,0 +1,74 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb.pull-left
+    li
+      a href="#{root_path}"
+        | Home
+    li.active Trial Provider Reimbursement Report
+- content_for :actions do
+  a.btn.btn-info.btn-labeled target="_blank" href="#{reimbursement_reports_path(year: params[:year], month: params[:month], format: :csv)}"
+    span.btn-label.fa.fa-print
+    ' Export to CSV
+div
+  form.form-group action="#{reimbursement_reports_path}" method="get"
+    .row
+      .col-sm-2.text-right style="padding-top: 5px"
+        span Select Month
+      .col-sm-2
+        = select_tag :year, options_for_select((Date.today.year-2)..Date.today.year, params[:year]), {class: "form-control"}
+      .col-sm-2
+        = select_month params[:month].to_i, {field_name: "month", prefix: ''}, {class: "form-control"}
+      .pull-left
+        button.btn.btn-primary
+          span Search
+- if @payouts.empty?
+  .alert.alert-warning There is no results.
+.table-primary
+  table.table.data
+    thead
+      tr
+        th Vendor ID
+        th Provider Name
+        th Child Name
+        th Date of Service
+        th Funder
+        th Paid At
+        th.w-sm Eligibility Activity
+        th.w-sm Care Level
+        th.w-sm Care Provided
+        th.w-sm Provider Rate
+        th.w-sm Parent Fee
+        th.w-sm Gross Reimb.
+        th.w-sm Less Fees
+        th.w-sm Net Reimb.
+    tbody
+      - total_amount = total_parent_fee = total_subsidy = 0
+      - @payouts.each do |payout|
+        - next if payout.provider_attendance.nil?
+        - contract = payout.contract
+        - year = payout.provider_attendance.year
+        - month = payout.provider_attendance.month
+        tr
+          td= contract.provider.vendor_number
+          td= link_to contract.provider.name, contract.provider
+          td= link_to contract.child.full_name, [contract.family, contract.child]
+          td= Date::MONTHNAMES[month]
+          td= contract.funder.abbreviation
+          td= payout.created_at.to_date
+          td= contract.days_attended(year, month)
+          td= contract.child.age_group.try(:name)
+          td= contract.is_full_time ? "FT" : "PT"
+          td= number_to_currency contract.weekly_rate
+          td= number_to_currency contract.weekly_parent_fee
+          td= number_to_currency contract.total_amount(year, month)
+          td= number_to_currency contract.total_parent_fee(year, month)
+          td= number_to_currency contract.total_subsidy(year, month)
+          - total_amount += contract.total_amount(year, month)
+          - total_parent_fee += contract.total_parent_fee(year, month)
+          - total_subsidy += contract.total_subsidy(year, month)
+    tfoot
+      tr
+        td.text-right.strong colspan="11" TOTAL
+        td.strong= number_to_currency total_amount
+        td.strong= number_to_currency total_parent_fee
+        td.strong= number_to_currency total_subsidy
+.strong

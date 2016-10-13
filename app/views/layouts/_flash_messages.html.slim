@@ -1,0 +1,7 @@
+- unless flash[:success].nil?
+  javascript:
+    $.growl.notice({ message: "#{flash[:success]}" });
+
+- unless flash[:error].nil?
+  javascript:
+    $.growl.error({ message: "#{flash[:error]}" });

@@ -1,0 +1,21 @@
+- family_name = "#{@family.first_parent.try(:last_name)} " +\
+  "#{@family.second_parent.try(:last_name)} Family"
+
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li
+      a href="#{families_path}"
+        | Families
+    li
+      a href="#{family_path(@family)}"
+        | #{family_name}
+    li.active
+      a href="#{edit_family_path(@family)}"
+        | Editing...
+
+.row
+  .col-sm-12
+    = render "form"

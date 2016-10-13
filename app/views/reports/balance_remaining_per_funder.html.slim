@@ -1,0 +1,53 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb.pull-left
+    li
+      a href="#{root_path}"
+        | Home
+    li.active Balance Remaining Per Funding Source Report
+- content_for :actions do
+  a.btn.btn-info.btn-labeled href="#{balance_remaining_per_funder_reports_path(format: :csv)}"
+    span.btn-label.fa.fa-print
+    ' Export to CSV
+  a.btn.btn-info.btn-labeled target="_blank" href="#{balance_remaining_per_funder_reports_path(format: :pdf)}"
+    span.btn-label.fa.fa-print
+    ' Export to PDF
+div
+  .panel.colourable
+    table.table.table-hover.table-bordered
+      thead
+        tr
+          th Name
+          th Funded
+          th Spent
+          th Balance
+          th Children Funded
+      tbody
+        - @funders.each do |funder|
+          tr
+            td= link_to funder.name, funder_path(funder)
+            td= number_to_currency funder.funded
+            td= number_to_currency funder.spent
+            td= number_to_currency funder.balance
+            td= funder.children_funded
+          - payouts = Payout.where(funding_cycle_id: funder.funding_cycles.pluck(:id)).includes(:provider_attendance, contract: [:child, :provider])
+          - if payouts.present?
+            tr
+              td colspan="5"
+                .panel.table-primary
+                  table.table.data
+                    thead
+                      tr
+                        th Children
+                        th Provider
+                        th Date of Service
+                        th Attended Days
+                        th Amount
+                        th Paid Date
+                    - payouts.each do |payout|
+                      tr
+                        td= payout.contract.child.full_name
+                        td= payout.contract.provider.name
+                        td= Date::MONTHNAMES[payout.provider_attendance.month]
+                        td= payout.provider_attendance.days
+                        td= number_to_currency payout.amount
+                        td= payout.created_at

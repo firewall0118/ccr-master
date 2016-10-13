@@ -1,0 +1,28 @@
+h3.text-center Children per Provider Report
+br
+
+h4 #{Date.today.to_s}
+br
+
+- @providers.each do |provider|
+  .panel.colourable
+    .panel-heading
+      strong Provider Name:
+      span  #{provider.name}
+      strong  &nbsp;Number of Children:
+      span  #{provider.children.size}
+
+    table.table
+      thead
+        tr
+          th ID
+          th Name
+          th Age
+          th Age Group
+      tbody
+        - provider.children.each do |child|
+          tr
+            td= child.id
+            td= child.full_name
+            td= child.current_age
+            td= child.age_group.try(:name)

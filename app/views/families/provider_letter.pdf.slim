@@ -1,0 +1,125 @@
+- contract = @contract
+- provider = @contract.provider
+= render "shared/ccr_header"
+
+h4.text-center
+  strong SCCP - Provider Communication Notice
+p #{Date.today.to_s}
+br
+.clearfix
+  .pull-left style="width: 70%"
+    p #{provider.street}
+    p #{provider.mailing_address}
+  .pull-left
+    p County: #{provider.county.name}
+    p Provider ID: #{provider.vendor_number}
+
+br
+h4 RE: #{provider.name}
+.clearfix
+  = check_box_tag 'check1', '', @family.status.initial?, class: "pull-left"
+  p.pull-left style="margin-left: 30px" Child care has been approved
+
+.clearfix
+  = check_box_tag 'check2', '', @family.status.redeterminated?, class: "pull-left"
+  p.pull-left style="margin-left: 30px" Continuation of child care has been approved
+
+.clearfix
+  input.pull-left type="checkbox"
+  p.pull-left style="margin-left: 30px" Child care for the children listed below will change effective (date)
+.clearfix
+  .pull-left style="margin-left: 60px; width: 45%"
+    .clearfix
+      input.pull-left type="checkbox"
+      p.pull-left style="margin-left: 30px" Parent fee increase/decrease
+    .clearfix
+      input.pull-left type="checkbox"
+      p.pull-left style="margin-left: 30px" Added child to program
+    .clearfix
+      input.pull-left type="checkbox"
+      p.pull-left style="margin-left: 30px" Enrollment suspended
+  .pull-left style="width: 45%"
+    .clearfix
+      input.pull-left type="checkbox"
+      p.pull-left style="margin-left: 30px" Enrollment child care increased/decreased
+    .clearfix
+      input.pull-left type="checkbox"
+      p.pull-left style="margin-left: 30px" Child(ren) transferred to new provider
+    .clearfix
+      input.pull-left type="checkbox"
+      p.pull-left style="margin-left: 30px" Other ____________________________
+
+.clearfix
+  input.pull-left type="checkbox"
+  p.pull-left style="margin-left: 30px"
+    | Effective _____________________________ subsidized child care services will terminate.
+    b
+      |  No additional
+      br
+      |  termination notice will be issued.
+.clearfix
+  input.pull-left type="checkbox"
+  p.pull-left style="margin-left: 30px" Please void notice to __________________________ effective ___________________________ .
+
+.clearfix
+  input.pull-left type="checkbox"
+  p.pull-left style="margin-left: 30px" Other ________________________________________________________________________
+
+h4.text-center
+  b PERIOD OF CERTIFICATION
+.text-center style="font-size: 14px" From #{contract.start_date.to_date} Through #{contract.end_date.to_date}
+table.table
+  thead
+    tr
+      th rowspan="2" Child Name
+      th.w-sm rowspan="2"
+        ' Start
+        br
+        ' Date
+      th.w-sm rowspan="2" Care Level
+      th.w-sm rowspan="2" Schedule Type
+      th.w-sm rowspan="2" Prov Rate
+      th.w-sm rowspan="2" Parent Fee
+      th.w-sm rowspan="2" Net Subsidy
+      th.text-center colspan="6" style="padding: 0" Schedule
+    tr
+      th M
+      th T
+      th W
+      th T
+      th F
+      th S
+      th S
+  tbody
+    - weekly_rate = contract.weekly_rate
+    - weekly_parent_fee = contract.weekly_parent_fee
+    - weekly_subsidy = contract.weekly_subsidy
+
+    tr
+      td style="width: 140px"= contract.child.full_name
+      td= contract.start_date.to_s
+      td style="width: 140px"= contract.child.age_group.try(:name)
+      td= contract.is_full_time ? "FT" : "PT"
+      td= number_to_currency weekly_rate
+      td= number_to_currency weekly_parent_fee
+      td= number_to_currency weekly_subsidy
+      td= contract.is_full_time ? "FT" : "PT"
+      td= contract.is_full_time ? "FT" : "PT"
+      td= contract.is_full_time ? "FT" : "PT"
+      td= contract.is_full_time ? "FT" : "PT"
+      td= contract.is_full_time ? "FT" : "PT"
+      td __
+      td __
+    tr
+      td.text-right colspan="4" TOTAL
+      td= number_to_currency weekly_rate
+      td= number_to_currency weekly_parent_fee
+      td colspan="8"= number_to_currency weekly_subsidy
+br
+p Comments:
+
+/ - dates = family_dates(@start_date, @end_date, @family) # by_period(dates[@period_idx], dates[@period_idx + 1])
+/ - note = @family.family_notes.with_category(:provider_letter).last
+/   p= note.try(:content)
+/   br
+/ .page-break

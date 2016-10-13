@@ -1,0 +1,36 @@
+- create_singular = create.model_name.element
+- create_plural   = create.model_name.collection
+- search_singular = search.model_name.element
+- search_plural   = search.model_name.collection
+
+.autocomplete(data-create-plural=create_plural
+  data-create-singular=create_singular
+  data-search-plural=search_plural
+  data-search-singular=search_singular
+  )
+  -# Transparency will fill next node with JSON to communicate with
+  -# autocomplete
+  .hidden.initial
+  .create
+    .row
+      .col-md-10
+        a.created-label
+      .btn.btn-danger X
+  form.form-horizontal.text-center
+    .row
+      .col-md-10
+        input.form-control type="text" name="q" placeholder="Search #{search_plural}..."
+  .search class="text-center"
+    .models
+      .model
+        -#.name
+
+        table.data class="table table-bordered table-primary"
+          thead
+            tr.columns
+              th.name
+
+          tbody.rows class="scrollable"
+            tr.fields
+              -#.hidden.name
+              td.value

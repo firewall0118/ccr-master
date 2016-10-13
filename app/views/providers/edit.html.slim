@@ -1,0 +1,15 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li
+      a href="#{providers_path}"
+        | Providers
+    li.active
+      a href="#{edit_provider_path(@provider)}"
+        | Edit Provider
+
+.row
+  .col-sm-12
+    = render "form"

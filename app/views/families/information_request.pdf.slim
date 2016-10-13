@@ -1,0 +1,78 @@
+= render "shared/ccr_header"
+
+h4.text-center
+  strong REQUEST FOR INFORMATION
+
+p #{Date.today.to_s}
+br
+.clearfix
+  .pull-left style="width: 70%"
+    p= @family.first_parent.full_name
+    p= @family.first_parent.street
+    p= @family.first_parent.city_state_zip
+  .pull-left
+    p Case ID: #{@family.id}
+    p Parent County: #{@family.first_parent.county.try(:name)}
+
+br
+br
+p
+  | You made an application for child care services on #{@family.period_start}. At that time we could not make a determination of your eligibility for services because we needed additional information. You must provide information below checked for each member of family, to the Childcare Resources no later than #{(Date.today + 10.days).to_s} in order for us to process your application.
+br
+.clearfix
+  input.pull-left type="checkbox"
+  p.pull-left style="margin-left: 20px" Last for pay-stubs
+
+.clearfix
+  input.pull-left type="checkbox"
+  p.pull-left style="margin-left: 20px" Employment verification form
+
+.clearfix
+  input.pull-left type="checkbox"
+  p.pull-left style="margin-left: 20px" Verification of last date for employment
+
+.clearfix
+  input.pull-left type="checkbox"
+  p.pull-left style="margin-left: 20px" Employment verification form to verify new employment
+
+.clearfix
+  input.pull-left type="checkbox"
+  p.pull-left style="margin-left: 20px" Verification of all other sources of family income, including SSI, SSA, disability, or any other income you might have
+
+.clearfix
+  input.pull-left type="checkbox"
+  p.pull-left style="margin-left: 20px" Birth certificates
+
+.clearfix
+  input.pull-left type="checkbox"
+  p.pull-left style="margin-left: 20px" Legal Separation or Divorce documents
+
+.clearfix
+  input.pull-left type="checkbox"
+  p.pull-left style="margin-left: 20px" Legal custody documents
+
+.clearfix
+  input.pull-left type="checkbox"
+  p.pull-left style="margin-left: 20px" Proof of payments in full of parent fee to previous provider
+
+.clearfix
+  input.pull-left type="checkbox"
+  p.pull-left style="margin-left: 20px" Other _________________________________________________________________
+
+.clearfix
+  input.pull-left type="checkbox"
+  p.pull-left style="margin-left: 20px" Provider
+
+br
+br
+b
+  | For the items checked above, &nbsp;
+  u you need to do one of the following:
+br
+br
+b Mail information to:
+p CHILDCARE RESOURCES
+br
+| 244 West Valley Ave. Suite 200
+br
+| BIRMINGHAM AL 35209

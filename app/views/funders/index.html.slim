@@ -1,0 +1,40 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li.active
+      a href="#{funders_path}"
+        | Funders
+
+
+a.btn.btn-labeled.btn-primary href="#{new_funder_path}" style="margin-bottom: 18px;"
+  span class="btn-label icon fa fa-plus"
+  '  Add New Funding Source
+
+.table-primary
+  table#jq-datatables-funders.table.table-striped.table-bordered.table-hover
+    thead
+      tr
+        th Name
+        th Funded
+        th Spent
+        th Balance
+        th Children Funded
+        th Last Contract Date
+        th style="width: 115px;" Actions
+    tbody
+      - @funders.each do |funder|
+        tr
+          td= link_to funder.name, funder_path(funder)
+          td= number_to_currency funder.funded
+          td= number_to_currency funder.spent
+          td= number_to_currency funder.balance
+          td= funder.children_funded
+          td= funder.last_contract_date
+          td
+            .btn-group
+              = link_to edit_funder_path(funder), class: "btn btn-info" do
+                i.fa.fa-edit
+              = link_to funder_path(funder), class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure to delete this funder?" } do
+                i.fa.fa-trash-o

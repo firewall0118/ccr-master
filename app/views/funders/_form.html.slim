@@ -1,0 +1,79 @@
+= simple_form_for @funder, html: { class: "panel form-horizontal" } do |f|
+  .panel-heading
+    span.panel-title
+      i class="panel-title-icon fa fa-user"
+      | Funder Information
+
+  .panel-body
+    = render "shared/form_errors", resource: @funder
+
+    .form-group
+      = f.label :name, class: "col-sm-2 control-label"
+      .col-sm-10
+        = f.input_field :name, class: "form-control", pattern: false
+    .form-group
+      = f.label :abbreviation, class: "col-sm-2 control-label"
+      .col-sm-10
+        = f.input_field :abbreviation, class: "form-control", pattern: false
+    .form-group
+      = f.label :address, class: "col-sm-2 control-label"
+      .col-sm-10
+        = f.input_field :address, class: "form-control", pattern: false
+    .form-group
+      = f.label :email, class: "col-sm-2 control-label"
+      .col-sm-10
+        = f.input_field :email, class: "form-control", pattern: false
+    .form-group
+      = f.label :phone_number, class: "col-sm-2 control-label"
+      .col-sm-10
+        = f.input_field :phone_number, class: "form-control", pattern: false
+    .form-group
+      = f.label :contact_person, class: "col-sm-2 control-label"
+      .col-sm-10
+        = f.input_field :contact_person, class: "form-control", pattern: false
+
+    hr
+
+    .form-group
+      = f.label :max_family_size, class: "col-sm-2 control-label"
+      .col-sm-10
+        = f.input_field :max_family_size, class: "form-control", pattern: false
+    hr
+    = f.simple_fields_for :funding_cycles do |c|
+      .form-group
+        = c.label :amount, class: "col-sm-2 control-label", label: "Amount"
+        .col-sm-10
+          = c.input_field :amount, class: "form-control", pattern: false
+      .form-group
+        = c.label :start_date, class: "col-sm-2 control-label", label: "Start Date"
+        .col-sm-10
+          = c.date_field :start_date, class: "form-control"
+      .form-group
+        = c.label :end_date, class: "col-sm-2 control-label", label: "End Date"
+        .col-sm-10
+          = c.date_field :end_date, class: "form-control"
+      .form-group
+        = c.label :notes, class: "col-sm-2 control-label", label: "Notes"
+        .col-sm-10
+          = c.input_field :notes, class: "form-control"
+
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        = f.association :counties, as: :check_boxes, label_method: :name, value_method: :id, label: "Supported counties"
+
+    hr
+
+
+
+    .form-group
+      = f.label :notes, class: "col-sm-2 control-label"
+      .col-sm-10
+        = f.input_field :notes, class: "form-control", pattern: false
+
+    .hr
+
+    .form-group style="margin-bottom: 0;"
+      .col-sm-offset-2.col-sm-10
+        button.btn.btn-labeled.btn-primary name="commit" type="submit" value="Submit"
+          span class="btn-label icon fa fa-save"
+          '  Submit

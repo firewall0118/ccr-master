@@ -1,0 +1,19 @@
+ul.nav.navbar-nav.pull-right.right-navbar-nav
+  li.dropdown
+    a.dropdown-toggle-user-menu href="#" data-toggle="dropdown"
+      span &nbsp; #{current_user.full_name}
+    ul.dropdown-menu
+      li
+        = link_to edit_user_registration_path do
+          i.dropdown-icon.fa.fa-user
+          | &nbsp;&nbsp; Profile
+
+      li
+        a href="#"
+          i class="dropdown-icon fa fa-cog"
+          | &nbsp;&nbsp; Settings
+      li.divider
+      li
+        a data-method="delete" href="/users/sign_out" rel="nofollow"
+          i class="dropdown-icon fa fa-power-off"
+          | &nbsp;&nbsp; Log Out

@@ -1,0 +1,40 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li
+      a href="#{accounts_path}"
+        | User Accounts
+    li.active
+      a href="#{account_path(@user)}"
+        = @user.email
+
+.panel.colourable
+  .panel-heading
+    span.panel-title
+      i class="panel-title-icon fa fa-user"
+      | Account Information
+
+  .panel-body
+    p
+      strong Email:
+      '  #{@user.email}
+    p
+      strong Permission Level:
+      '  #{@user.permission_level}
+    p
+      strong Registered:
+      '  #{@user.created_at.to_s}
+    p
+      strong Last Updated:
+      '  #{@user.updated_at.to_s}
+
+  .panel-footer
+    a.btn.btn-labeled.btn-primary href="#{edit_account_path(@user)}"
+      span.btn-label.icon.fa.fa-pencil
+      '  Edit
+
+    = link_to account_path(@user), method: :delete, class: "btn btn-labeled btn-danger"
+      span.btn-label.icon.fa.fa-times
+      '  Delete

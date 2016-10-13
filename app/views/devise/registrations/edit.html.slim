@@ -1,0 +1,63 @@
+.row
+  .col-sm-8
+    = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "panel form-horizontal" }) do |f|
+      .panel-heading
+        span.panel-title
+          i class="panel-title-icon fa fa-user"
+          | Account Information
+
+      .panel-body
+
+        = render "shared/form_errors", resource: resource
+
+        .form-group
+          = f.label :first_name, class: "col-sm-3 control-label"
+          .col-sm-8
+            = f.input_field :first_name, class: "form-control"
+
+        .form-group
+          = f.label :middle_name, class: "col-sm-3 control-label"
+          .col-sm-8
+            = f.input_field :middle_name, class: "form-control"
+
+        .form-group
+          = f.label :last_name, class: "col-sm-3 control-label"
+          .col-sm-8
+            = f.input_field :last_name, class: "form-control"
+
+        .form-group
+          = f.label :job, class: "col-sm-3 control-label"
+          .col-sm-8
+            = f.input_field :job, class: "form-control"
+        .form-group
+          = f.label :phone_number, class: "col-sm-3 control-label"
+          .col-sm-4
+            = f.input_field :phone_number, class: "form-control"
+          .col-sm-3
+            = f.input_field :phone_ext, class: "form-control", placeholder: "Phone Ext"
+
+        .form-group
+          = f.label :email, class: "col-sm-3 control-label"
+          .col-sm-8
+            = f.input_field :email, class: "form-control", pattern: false
+
+        .form-group
+          = f.label :password, class: "col-sm-3 control-label"
+          .col-sm-8
+            = f.input_field :password, class: "form-control", pattern: false
+
+        .form-group
+          = f.label :password_confirmation, class: "col-sm-3 control-label"
+          .col-sm-8
+            = f.input_field :password_confirmation, class: "form-control", pattern: false
+
+        .form-group
+          = f.label :current_password, class: "col-sm-3 control-label"
+          .col-sm-8
+            = f.input_field :current_password, class: "form-control", pattern: false
+
+        .form-group style="margin-bottom: 0;"
+          .col-sm-offset-3.col-sm-8
+            button.btn.btn-labeled.btn-primary name="commit" type="submit" value="Submit"
+              span class="btn-label icon fa fa-save"
+              '  Update

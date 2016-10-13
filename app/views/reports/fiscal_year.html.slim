@@ -1,0 +1,38 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb.pull-left
+    li
+      a href="#{root_path}"
+        | Home
+    li.active Fiscal Year Report
+- content_for :actions do
+  a.btn.btn-info.btn-labeled href="#{fiscal_year_reports_path(format: :csv)}"
+    span.btn-label.fa.fa-print
+    span  Export to CSV
+  a.btn.btn-info.btn-labeled target="_blank" href="#{fiscal_year_reports_path(format: :pdf)}"
+    span.btn-label.fa.fa-print
+    span  Export to PDF
+
+div
+  .panel.colourable
+    .panel-heading
+      strong Fiscal Year:
+      span  #{Setting.first.fiscal_year_start.year}&nbsp;
+
+    table.table.table-bordered.table-hover
+      thead
+        tr
+          th Child Name
+          th Custodian(s)
+          th Provider
+          th Funder
+          th Period
+          th Qualified Subsidy
+      tbody
+        - @contracts.each do |contract|
+          tr
+            td= contract.child.full_name
+            td= contract.family.name
+            td= contract.provider.name
+            td= contract.funder.abbreviation
+            td #{contract.start_date} ~ #{contract.end_date}
+            td= number_to_currency contract.total_subsidy

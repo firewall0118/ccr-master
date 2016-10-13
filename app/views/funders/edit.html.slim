@@ -1,0 +1,17 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li
+      a href="#{funders_path}"
+        | Funders
+    li
+      a href="#{funder_path(@funder)}"
+        | #{@funder.name}
+    li.active
+      a href="#{edit_funder_path(@funder)}"
+        | Editing...
+.row
+  .col-sm-12
+    = render "form"

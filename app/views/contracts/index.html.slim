@@ -1,0 +1,17 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li.active
+      a href="#{contracts_path}"
+        | Assignments
+
+
+a#print.btn.btn-labeled.btn-primary target="_blank"
+  span.btn-label.icon.fa.fa-print
+  | Print Approval Letters
+br
+br
+
+= render "contracts/index", contracts: @contracts, checkboxes: true

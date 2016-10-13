@@ -1,0 +1,142 @@
+css:
+  h3.panel-title {
+    font-size: 20px;
+    color: #333;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+  }
+  .panel-title i {
+    display: none;
+  }
+
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li
+      a href="#{providers_path}"
+        | Providers
+    li.active
+      a href="#{provider_path(@provider)}"
+        = @provider.name
+
+.clearfix
+  .col-sm-8
+    .panel-body
+      h3.panel-title
+        i class="fa fa-user"
+        | General
+      p
+        strong Name:
+        '  #{@provider.name}
+      p
+        strong Provider Type:
+        '  #{@provider.provider_type.try(:name)}
+      p
+        strong Director Name:
+        '  #{@provider.director_name}
+      p
+        strong Assistant Director Name:
+        '  #{@provider.assistant_director_name}
+
+      h3.panel-title
+        i class="fa fa-paperclip"
+        ' License
+      p
+        strong Licensed Status:
+        '  #{@provider.provider_license_type}
+
+      - if @provider.provider_license_type == "Licensed Provider"
+        p
+          strong License Number:
+          '  #{@provider.license_number}
+        p
+          strong License Issue Date:
+          '  #{@provider.license_issue_date}
+        p
+          strong License Expiration Date:
+          '  #{@provider.license_expiration_date}
+      = render "show_provider_rates", p: @provider.current_rate
+
+      .contracts ng-controller="ContractCtrl" ng-init="provider_id=#{@provider.id}; getContracts();"
+        legend Contracts
+        a.btn.btn-labeled.btn-primary ng-click="addContract()"
+          span class="btn-label icon fa fa-plus"
+          '  Assign Child to Provider and Funding Source
+        = link_to 'Export Contracts', contracts_path(provider_id: @provider.id, format: :pdf), target: :_blank, class: 'btn btn-info'
+
+        = render "contracts/contracts", editable: false
+        = render "contracts/modal"
+
+  .col-sm-4
+    .panel-body
+      h3.panel-title
+        i class="fa fa-building-o"
+        | Physical
+
+      p
+        strong Address:
+        '  #{@provider.physical_address_street}
+      p
+        strong City:
+        '  #{@provider.physical_address_city}
+      p
+        strong State:
+        '  #{@provider.physical_address_state}
+      p
+        strong Zip Code:
+        '  #{@provider.physical_address_zip}
+      p
+        strong County:
+        '  #{@provider.county.name}
+
+      h3.panel-title
+        i class="fa fa-envelope-o"
+        | Mailing
+
+      p
+        strong Address:
+        '  #{@provider.mailing_address_street}
+      p
+        strong City:
+        '  #{@provider.mailing_address_city}
+      p
+        strong State:
+        '  #{@provider.mailing_address_state}
+      p
+        strong Zip Code:
+        '  #{@provider.mailing_address_zip}
+      h3.panel-title
+        i class="fa fa-envelope-o"
+        | Contact
+
+      p
+        strong Email:
+        '  #{@provider.email}
+      p
+        strong Phone Number:
+        '  #{@provider.phone_number}
+      p
+        strong Alternate Phone Number:
+        '  #{@provider.alternate_phone_number}
+      p
+        strong Fax Number:
+        '  #{@provider.fax_number}
+      p
+        strong Website:
+        '  #{@provider.website}
+
+hr
+.clearfix style="padding-bottom: 80px"
+  .col-sm-12
+    a.btn.btn-primary href="#{edit_provider_path(@provider)}"
+      span.btn-label.icon.fa.fa-pencil
+      '  Edit
+
+    = link_to provider_path(@provider), method: :delete, data: { confirm: "Are you sure to delete this?" }, class: "btn btn-danger" do
+      span.btn-label.icon.fa.fa-times
+      '  Delete
+

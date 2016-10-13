@@ -1,0 +1,56 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li
+      a href="#{funders_path}"
+        | Funders
+    li
+      a href="#{funder_path(@funder)}"
+        = @funder.name
+    li.active
+      a href="#{new_funder_funding_cycle_path(@funder)}"
+        | New funding cycle
+
+.row
+  .col-sm-12
+    = simple_form_for [@funder, @funding_cycle], html: { class: "form-horizontal" } do |f|
+      = render "shared/form_errors", resource: @funding_cycle
+
+      .row
+        .col-md-12
+          .panel
+            .panel-heading
+              span.panel-title
+                i class="panel-title-icon fa fa-user"
+                | Funding Cycle Information
+
+            .panel-body
+              .form-group
+                = f.label :amount, class: "col-sm-2 control-label", label: "Amount"
+                .col-sm-10
+                  = f.input_field :amount, class: "form-control", pattern: false
+              .form-group
+                = f.label :start_date, class: "col-sm-2 control-label", label: "Start Date"
+                .col-sm-10
+                  = f.input_field :start_date, class: "form-control"
+              .form-group
+                = f.label :end_date, class: "col-sm-2 control-label", label: "End Date"
+                .col-sm-10
+                  = f.input_field :end_date, class: "form-control"
+              .form-group
+                = f.label :notes, class: "col-sm-2 control-label", label: "Notes"
+                .col-sm-10
+                  = f.input_field :notes, class: "form-control"
+
+
+            .panel-body
+              .form-group style="margin-bottom: 0;"
+                a.btn.btn-labeled.btn-default style="margin-left: 32px;" href=request.referrer
+                  span class="btn-label icon fa fa-times"
+                  '  Cancel
+                | &nbsp;
+                button.btn.btn-labeled.btn-primary name="commit" type="submit" value="Submit" style="margin-left: 5px;"
+                  span class="btn-label icon fa fa-save"
+                  '  Submit

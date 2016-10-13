@@ -1,0 +1,15 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li
+      a href="#{funders_path}"
+        | Funders
+    li.active
+      a href="#{new_funder_path}"
+        | New Funder
+
+.row
+  .col-sm-12
+    = render "form"

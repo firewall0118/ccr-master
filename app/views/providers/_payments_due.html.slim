@@ -1,0 +1,12 @@
+table.data.table
+  thead
+    tr
+      th Provider
+      th Amount
+      th Number of Contracts
+  tbody
+    - @providers.each do |provider|
+      tr
+        td= link_to provider.name, provider_path(provider)
+        td= number_to_currency provider.payment_outstanding
+        td= provider.contracts.count

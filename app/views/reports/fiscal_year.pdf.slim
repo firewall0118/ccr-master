@@ -1,0 +1,28 @@
+h3.text-center Family and Children per Fiscal Year Report
+br
+
+h4 #{Date.today.to_s}
+br
+
+p
+  strong Fiscal Year:
+  span  #{Setting.first.fiscal_year_start.year}&nbsp;
+
+table.table
+  thead
+    tr
+      th Child Name
+      th Custodian(s)
+      th Provider
+      th Funder
+      th Period
+      th Qualified Subsidy
+  tbody
+    - @contracts.each do |contract|
+      tr
+        td= contract.child.full_name
+        td= contract.family.name
+        td= contract.provider.name
+        td= contract.funder.abbreviation
+        td #{contract.start_date} ~ #{contract.end_date}
+        td= number_to_currency contract.total_subsidy

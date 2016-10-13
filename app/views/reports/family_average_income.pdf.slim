@@ -1,0 +1,23 @@
+h3.text-center Family Average Income per Funding Source Report
+br
+
+h4 #{Date.today.to_s}
+br
+
+table.table
+  thead
+    tr
+      th Funder Name
+      th Number of Families
+      th Average Number of Children
+      th Average Income of Family
+      th Created At
+  tbody
+    - @funders.each do |funder|
+      tr
+        td= funder.name
+        - families = funder.contracts.select("distinct(child_id)").map(&:family)
+        td= families.count
+        td= sprintf("%.2f", families.sum(&:number_of_children) / families.count.to_f)  if families.count > 0
+        td= number_to_currency families.sum(&:annual_income) / families.sum(&:number_of_custodian) if families.count > 0
+        td= funder.created_at.to_date

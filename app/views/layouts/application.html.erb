@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Childcare Resources</title>
+    <%= stylesheet_link_tag    "application", media: "all" %>
+    <script src="https://www.google.com/jsapi" type="text/javascript"></script>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <%# use path in id to style in CSS minified and compressed file %>
+  <body id="<%= request.path[1..-1].gsub("/", "-").presence || "home-page" %>"
+     class="theme-asphalt main-menu-animated main-menu-fixed main-navbar-fixed" ng-app="ccrApp">
+    <div id="main-wrapper">
+      <%= render "layouts/top_pane" %>
+      <%= render "layouts/left_pane" %>
+
+
+      <div id="content-wrapper">
+        <%= render "layouts/breadcrumbs_and_actions" %>
+        <%= render "layouts/flash_messages" %>
+
+        <%= yield %>
+      </div>
+      <div id="main-menu-bg"></div>
+    </div>
+
+    <script type="text/javascript">
+      var init = [];
+      init.push(function () {
+        $('#jq-datatables-providers').dataTable({
+          autoWidth: true,
+          aoColumnDefs: [{
+            bSortable: false,
+            aTargets: [0, 7],
+          }],
+          order: [[ 1, "asc" ]]
+        })
+
+        $("#jq-datatables-users_wrapper .table-caption").text("Active Accounts:");
+        $("#jq-datatables-users_wrapper .dataTables_filter input").attr("placeholder", "Search...");
+
+        $("#jq-datatables-families").dataTable();
+        $("#jq-datatables-families_wrapper .table-caption").text("Families:");
+        $("#jq-datatables-families_wrapper .dataTables_filter input").attr("placeholder", "Search...");
+
+        $("#jq-datatables-funders").dataTable();
+        $("#jq-datatables-funders_wrapper .table-caption").text("Funders:");
+        $("#jq-datatables-funders_wrapper .dataTables_filter input").attr("placeholder", "Search...");
+
+      })
+      window.PixelAdmin.start(init);
+    </script>
+
+  </body>
+</html>

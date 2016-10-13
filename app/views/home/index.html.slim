@@ -1,0 +1,41 @@
+- content_for :breadcrumbs do
+  h1.col-xs-12.col-sm-4.text-center.text-left-sm
+    | &nbsp;&nbsp;
+    i.fa.fa-dashboard.page-header-icon
+    | &nbsp;&nbsp;Dashboard
+
+.row
+  .col-md-7
+    .clearfix
+      .panel.panel-default
+        .panel-body
+          h4 Children Awaiting Processing
+          table.data.table
+            thead
+              tr
+                th Child name
+                / th Location
+                th Age
+                th Custodian(s)
+            tbody
+              - @children.each do |child|
+                tr data-view-link=family_child_path(child.family, child)
+                  td= link_to child.full_name, family_child_path(child.family, child)
+                  / td= child.location
+                  td= child.current_age
+                  td= child.family.first_parent.try(:full_name)
+
+    .clearfix
+      .panel.panel-default
+        .panel-body
+          h4 Providers Payments Due
+          = render "providers/payments_due"
+  .col-md-5
+    .panel
+      .panel-body
+        h4 Active Funding Sources
+        = render "funder_top_pie_chart"
+    .panel
+      .panel-body
+        h4 Child Care Providers
+        = render "provider_top_pie_chart"

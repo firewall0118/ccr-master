@@ -1,0 +1,21 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li
+      a href="#{families_path}"
+        | Families
+    li
+      a href="#{family_path(@family)}"
+        | Family
+    li
+      a href="#{family_child_path(@family, @child)}"
+        | #{@child.full_name}
+    li.active
+      a href="#"
+        | Assign Child to Provider
+
+.row
+  .col-sm-12
+    = render "form"

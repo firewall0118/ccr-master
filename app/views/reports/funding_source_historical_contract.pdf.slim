@@ -1,0 +1,33 @@
+h3.text-center #{@funder.abbreviation}'s Funding Source Historical Contract Report
+br
+
+h4 #{Date.today.to_s}
+br
+
+- @funding_cycles.each do |cycle|
+  p
+    strong PERIOD:
+    span.panel-title &nbsp;#{cycle.start_date} to #{cycle.end_date}
+  p
+    strong  TOTAL:
+    span  &nbsp;#{number_to_currency cycle.amount}
+
+  table.table.table-hover
+    thead
+      tr
+        th Child Name
+        th Custodian(s)
+        th Provider
+        th Funder
+        th Period
+        th Qualified Subsidy
+    tbody
+      - cycle.contracts.includes(:child, :family, :provider, :funder).each do |contract|
+        tr
+          td= contract.child.full_name
+          td= contract.family.name
+          td= contract.provider.name
+          td= contract.funder.abbreviation
+          td #{contract.start_date} ~ #{contract.end_date}
+          td= number_to_currency contract.total_subsidy
+  hr

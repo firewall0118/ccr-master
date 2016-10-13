@@ -1,0 +1,47 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb.pull-left
+    li
+      a href="#{root_path}"
+        | Home
+    li.active Provider Payment Report
+- content_for :actions do
+  a.btn.btn-info.btn-labeled href="#{provider_payment_reports_path(params: params, format: :csv)}"
+    span.btn-label.fa.fa-print
+    ' Export to CSV
+  a.btn.btn-info.btn-labeled target="_blank" href="#{provider_payment_reports_path(params: params, format: :pdf)}"
+    span.btn-label.fa.fa-print
+    ' Export to PDF
+div
+  form.form-group action="#{provider_payment_reports_path}" method="get"
+    .row
+      .col-sm-2.text-right style="padding-top: 5px"
+        span Select Month
+      .col-sm-2
+        = select_tag :year, options_for_select((Date.today.year-2)..Date.today.year, params[:year]), {class: "form-control"}
+      .col-sm-2
+        = select_month params[:month].to_i, {field_name: "month", prefix: ''}, {class: "form-control"}
+      .pull-left
+        button.btn.btn-primary
+          span Search
+
+  .panel.colourable
+    table.table.table-hover.table-bordered
+      thead
+        tr
+          th ID
+          th Name
+          th Address
+          th City
+          th State
+          th Zipcode
+          th Paid Amount
+      tbody
+        - @providers.each do |provider|
+          tr
+            td= provider.id
+            td= link_to provider.name, provider_path(provider)
+            td= provider.mailing_address_street
+            td= provider.mailing_address_city
+            td= provider.mailing_address_state
+            td= provider.mailing_address_zip
+            td= number_to_currency provider.paid_amount(params[:year].to_i, params[:month].to_i)

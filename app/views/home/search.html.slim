@@ -1,0 +1,114 @@
+- content_for :breadcrumbs do
+  h1
+    | &nbsp;&nbsp;
+    i.fa.fa-dashboard.page-header-icon
+    | &nbsp;&nbsp;Dashboard
+
+- if @providers.present?
+  .panel.colourable
+    .panel-heading Providers
+
+    table.table.table-striped.table-bordered.table-hover
+      thead
+        tr
+          th Provider
+          th Type
+          th No. of Children
+          th Payment Outstanding
+      tbody
+        - @providers.each do |provider|
+          tr
+            td= link_to provider.name, provider_path(provider)
+            td= provider.provider_type.try(:name)
+            td= provider.number_of_children
+            td= number_to_currency provider.payment_outstanding
+
+- if @families.present?
+  .panel.colourable
+    .panel-heading Families
+    table.table.table-striped.table-bordered.table-hover
+      thead
+        tr
+          th ID
+          th Application Date
+          th First Parent
+          th Second Parent
+          th Number of Children
+          th Annual Income
+          th Parent Fee
+          th
+            ' Re-determination
+            br
+            span Due Date
+
+      tbody
+        - for family in @families
+          tr class="#{cycle("even", "odd")}" data-view-link=family_path(family)
+            td= family.id
+            td= family.created_at.to_s
+            td
+              = family.first_parent.full_name
+              - if family.first_parent.has_custody?
+                | &emsp;
+                i.fa.fa-shield title="This parent has custody."
+            td
+              = family.second_parent.try(:full_name)
+              - if family.second_parent.try(:has_custody)
+                | &emsp;
+                i.fa.fa-shield title="This parent has custody."
+            td
+              ' #{family.children_count}&nbsp;
+              = link_to "Click to View Children", family_path(family)
+            td= number_to_currency family.annual_income, precision: 0
+            td= family.parent_fees
+            td
+              - if family.status.denied?
+                span.text-danger Denied&nbsp;
+                = link_to redetermination_denial_letter_family_path(family, format: :pdf), target: :_blank do
+                  i.fa.fa-download
+              - elsif family.redetermination_due_date.nil?
+                ' N/A
+              - else
+                '  #{l(family.redetermination_due_date)}
+- if @children.present?
+  .panel.colourable
+    .panel-heading Children
+    table.table.table-striped.table-bordered.table-hover
+      thead
+        tr
+          th ID
+          th Name
+          th Family
+          th Created At
+          th Status
+      tbody
+        - @children.each do |child|
+          tr class="#{cycle("even", "odd")}"
+            td= child.id
+            td= link_to child.full_name, [child.family, child]
+            td= child.family.name
+            td= child.created_at.to_date
+            td= child.current_contract.present? ? 'Active' : ''
+
+- if @funders.present?
+  .panel.colourable
+    .panel-heading Funding Sources
+    table.table.table-striped.table-bordered.table-hover
+      thead
+        tr
+          th Name
+          th Funded
+          th Spent
+          th Balance
+          th Children Funded
+          th Last Contract Date
+          th style="width: 115px;" Actions
+      tbody
+        - @funders.each do |funder|
+          tr
+            td= link_to funder.name, funder_path(funder)
+            td= number_to_currency funder.funded
+            td= number_to_currency funder.spent
+            td= number_to_currency funder.balance
+            td= funder.children_funded
+            td= funder.last_contract_date

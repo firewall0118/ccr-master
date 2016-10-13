@@ -1,0 +1,42 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb.pull-left
+    li
+      a href="#{root_path}"
+        | Reports
+    li.active Average Family Income Report
+- content_for :actions do
+  a.btn.btn-info.btn-labeled href="#{family_average_income_reports_path(params: params, format: :csv)}"
+    span.btn-label.fa.fa-print
+    span  Export to CSV
+  a.btn.btn-info.btn-labeled target="_blank" href="#{family_average_income_reports_path(params: params, format: :pdf)}"
+    span.btn-label.fa.fa-print
+    span  Export to PDF
+
+div
+  form.form-group action="#{family_average_income_reports_path}" method="get"
+    .row
+      .col-sm-3.col-md-2
+        input.form-control type="date" name="start_date" placeholder="Start Date" value="#{params[:start_date]}"
+      .col-sm-3.col-md-2
+        input.form-control type="date" name="end_date" placeholder="End Date" value="#{params[:end_date]}"
+      .pull-left
+        button.btn.btn-primary Search
+
+  .panel.colourable
+    table.table.table-bordered.table-hover
+      thead
+        tr
+          th Funder Name
+          th Number of Families
+          th Average Number of Children
+          th Average Income of Family
+          th Created At
+      tbody
+        - @funders.each do |funder|
+          tr
+            td= funder.name
+            - families = funder.contracts.select("distinct(child_id)").map(&:family)
+            td= families.count
+            td= sprintf("%.2f", families.sum(&:number_of_children) / families.count.to_f) if families.count > 0
+            td= number_to_currency families.sum(&:annual_income) / families.sum(&:number_of_custodian) if families.count > 0
+            td= funder.created_at.to_date

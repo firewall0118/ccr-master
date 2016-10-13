@@ -1,0 +1,24 @@
+.auth-form.center
+  = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "panel panel-dark" }) do |f|
+    .panel-heading
+      h4.text-center CHILDCARE RESOURCES
+    .panel-body
+      p.text-center CHANGE YOUR PASSWORD
+
+      = f.error_notification
+      = f.input :reset_password_token, as: :hidden
+      = f.full_error :reset_password_token
+
+      .form-group
+        = f.label :password, "New Password", class: "control-label"
+        = f.input_field :password, class: "form-control", required: true, autofocus: true
+
+      .form-group
+        = f.label :password, "Confirm your new Password", class: "control-label"
+        = f.input_field :password, class: "form-control", required: true
+
+      .form-group
+        = f.button :submit, "Change my password", class: "btn btn-primary col-sm-12"
+      .text-center
+        = render "devise/shared/links"
+

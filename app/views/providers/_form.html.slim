@@ -1,0 +1,17 @@
+= simple_form_for @provider, html: { class: "form-horizontal" } do |f|
+  .row
+    .col-sm-6
+      = render "provider_information", f: f
+      = render "contact_information", f: f
+      = render "license_information", f: f
+    .col-sm-6
+      = render "physical_location", f: f
+      = render "mail_address", f: f
+      = render "provider_rates", f: f
+  hr
+
+  .form-group style="margin-bottom: 0;"
+    .col-sm-offset-3.col-sm-9
+      button.btn.btn-primary name="commit" type="submit" value="Submit"
+        span class="btn-label icon fa fa-save"
+        '  Submit

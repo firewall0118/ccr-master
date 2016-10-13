@@ -1,0 +1,122 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li.active
+      a href="#{settings_path}"
+        | Settings
+
+-# Scroll area is the last div
+div
+  .row
+    .col-sm-12
+      .panel.colourable
+        .panel-heading
+          span.panel-title Rates by region, age group and provider type
+        .panel-body
+          ul#average-weekly-costs.nav.nav-tabs
+            li.active
+              a.children href="#child-care-rate-tab" data-toggle="tab" Child Care Center
+            li
+              a.children href="#daily-care-rate-tab" data-toggle="tab" Family Day Care
+            li
+              a.children href="#group-care-rate-tab" data-toggle="tab" Group Family Day Care
+          .tab-content.tab-content-bordered
+            .tab-pane.active#child-care-rate-tab
+              = render "rates", rates: @child_care_rates
+            .tab-pane#daily-care-rate-tab
+              = render "rates", rates: @daily_care_rates
+            .tab-pane#group-care-rate-tab
+              = render "rates", rates: @group_care_rates
+
+  .row
+    .col-sm-6
+      .panel.colourable ng-controller="ScaleCtrl"
+        .panel-heading
+          span.panel-title Income Scale
+        table.table.table-striped.table-bordered.table-hover ng-init="getScales()"
+          thead
+            tr
+              th.text-center Family Size
+              th Min Income
+              th Max Income
+              th
+
+          tbody
+            tr ng-repeat="scale in scales"
+              td.col-sm-3.text-center ng-bind="scale.family_size"
+              td.col-sm-3
+                span ng-bind="scale.minimum_income | currency" ng-show="current_index != $index"
+                input.form-control type="text" ng-model="scale.minimum_income" ng-show="current_index == $index"
+              td.col-sm-3
+                span ng-bind="scale.maximum_income | currency" ng-show="current_index != $index"
+                input.form-control type="text" ng-model="scale.maximum_income" ng-show="current_index == $index"
+              td.col-sm-3
+                a.btn.btn-primary ng-click="editScale($index)" ng-show="current_index != $index"
+                  i.fa.fa-edit
+                a.btn.btn-success ng-click="updateScale()" ng-show="current_index == $index"
+                  i.fa.fa-check
+                a.btn.btn-default ng-click="$parent.current_index=null" ng-show="$parent.current_index == $index"
+                  i.fa.fa-times
+    .col-sm-6
+      .panel.colourable ng-controller="AgeGroupCtrl"
+        .panel-heading
+          span.panel-title Age Range
+        table.table.table-striped.table-bordered.table-hover ng-init="getAgeGroups()"
+          thead
+            tr
+              th Name
+              th Min Age
+              th Max Age
+              th
+
+          tbody
+            tr ng-repeat="age_group in age_groups"
+              td.col-sm-3 ng-bind="age_group.name"
+              td.col-sm-3
+                span ng-bind="filterMonth(age_group.min)" ng-show="current_index != $index"
+                input.form-control type="text" ng-model="age_group.min" ng-show="current_index == $index"
+              td.col-sm-3
+                span ng-bind="filterMonth(age_group.max)" ng-show="current_index != $index"
+                input.form-control type="text" ng-model="age_group.max" ng-show="current_index == $index"
+              td.col-sm-3
+                a.btn.btn-primary ng-click="editAgeGroup($index)" ng-show="current_index != $index"
+                  i.fa.fa-edit
+                a.btn.btn-success ng-click="updateAgeGroup()" ng-show="current_index == $index"
+                  i.fa.fa-check
+                a.btn.btn-default ng-click="$parent.current_index=null" ng-show="$parent.current_index == $index"
+                  i.fa.fa-times
+
+      .panel.colourable ng-controller="SettingCtrl"
+        .panel-heading
+          span.panel-title CCR Settings
+          .pull-right
+            a.btn.btn-primary ng-click="isEditing=true" ng-hide="isEditing"
+              i.fa.fa-edit
+            a.btn.btn-success ng-click="updateSetting()" ng-show="isEditing"
+              i.fa.fa-check
+            a.btn.btn-default ng-click="isEditing=false" ng-show="isEditing"
+              i.fa.fa-times
+        table.table.table-striped.table-bordered.table-hover
+          tbody
+            tr
+              td.col-sm-7 Alabama Miminum Wage
+              td.col-sm-5
+                span ng-if="!isEditing" ng-bind="setting.alabama_minimum_wage | currency"
+                input.form-control type="text" ng-model="setting.alabama_minimum_wage" ng-show="isEditing"
+            tr
+              td.col-sm-7 Minimum Work Hours
+              td.col-sm-5
+                span ng-if="!isEditing" ng-bind="setting.minimum_work_hours"
+                input.form-control type="text" ng-model="setting.minimum_work_hours" ng-show="isEditing"
+            tr
+              td.col-sm-7 Fiscal Start Date
+              td.col-sm-5
+                span ng-if="!isEditing" ng-bind="setting.fiscal_year_start | date: 'MM/dd/yyyy'"
+                input.form-control type="text" ui-mask="99/99/9999" ng-model="setting.fiscal_year_start" ng-show="isEditing"
+            tr
+              td.col-sm-7 Fiscal End Date
+              td.col-sm-5
+                span ng-if="!isEditing" ng-bind="setting.fiscal_year_end | date: 'MM/dd/yyyy'"
+                input.form-control type="text" ui-mask="99/99/9999" ng-model="setting.fiscal_year_end" ng-show="isEditing"

@@ -1,0 +1,104 @@
+= simple_form_for @contract, html: { class: "form-horizontal" } do |f|
+  = render "shared/form_errors", resource: @contract
+
+  .row
+    .col-md-12
+      .panel
+        .panel-heading
+          span.panel-title
+            i class="panel-title-icon fa fa-user"
+            | Assign a Child to a Provider.
+
+        .panel-body
+          .form-group
+            = f.label :child_id, class: "col-sm-2 control-label", label: "Child"
+            .col-sm-10.col-md-3
+              = f.input_field :child_id, as: :hidden, input_html: { value: @child.id }
+              = link_to @child.full_name, [@family, @child], style: "vertical-align: -6px;"
+
+          .form-group
+            - family = @child.family
+            .col-sm-2.control-label
+              = link_to family.name, family_path(family)
+            .col-md-4
+              table.table
+                tbody
+                  tr
+                    th First Parent
+                    td
+                      = family.first_parent.full_name
+                      - if family.first_parent.has_custody?
+                        | &emsp;
+                        i.fa.fa-shield title="This parent has custody."
+                  tr
+                    th Second Parent
+                    td
+                      = family.second_parent.try(:full_name)
+                      - if family.second_parent.try(:has_custody)
+                        | &emsp;
+                        i.fa.fa-shield title="This parent has custody."
+                  tr
+                    th Children
+                    td
+                      = family.children_count
+                  tr
+                    th Annual Income
+                    td = number_to_currency family.annual_income, precision: 0
+                  - if @contract.weekly_subsidy.present?
+                    tr
+                      th Weekly Parent Fee
+                      td= number_to_currency(@contract.weekly_parent_fee) || "N/A"
+                    tr
+                      th Weekly Subsidy
+                      td= number_to_currency(@contract.weekly_subsidy) || "N/A"
+
+          .form-group
+            = f.label :funding_cycle_id, label: "Funding Source", class: "col-sm-2 control-label"
+            .col-sm-10.col-md-3
+              = f.select :funding_cycle_id, funder_options,
+                {include_blank: true}, class: "form-control"
+
+          .form-group
+            = f.label :provider_id, class: "col-sm-2 control-label", label: "Provider"
+            .col-sm-10.col-md-3
+              = f.input_field :provider_id, as: :select,
+                collection: Provider.order("name ASC"), include_blank: true,
+                class: "form-control"
+          .form-group
+            = f.label :start_date, class: "col-sm-2 control-label"
+            .col-sm-10.col-md-3
+              - date = Date.parse(f.object.start_date) rescue nil
+              = f.text_field :start_date, class: "datepicker form-control", value: date
+          .form-group
+            = f.label :end_date, class: "col-sm-2 control-label"
+            .col-sm-10.col-md-3
+              - date = Date.parse(f.object.end_date) rescue nil
+              = f.text_field :end_date, class: "form-control datepicker", value: date
+          .form-group
+            .col-sm-10.col-md-3.col-sm-offset-2
+              label
+                = f.radio_button :is_full_time, true
+                |  Full Time&nbsp;&nbsp;
+              label
+                = f.radio_button :is_full_time, false
+                |  Part Time
+
+  .row
+    .col-sm-12
+      .panel
+        .panel-heading
+          span.panel-title
+            i class="panel-title-icon fa fa-check"
+            | Confirm Child Provider Assignment
+
+        .panel-body
+          .form-group style="margin-bottom: 0;"
+            - back = request.referrer || family_child_path(@child.family, @child)
+            a.btn.btn-labeled.btn-default(style="margin-left: 32px;"
+              href=back)
+              span class="btn-label icon fa fa-times"
+              '  Cancel
+            | &nbsp;
+            button.btn.btn-labeled.btn-primary name="commit" type="submit" value="Submit" style="margin-left: 5px;"
+              span class="btn-label icon fa fa-save"
+              '  Submit

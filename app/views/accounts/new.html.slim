@@ -1,0 +1,49 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li
+      a href="#{accounts_path}"
+        | User Accounts
+    li.active
+      a href="#{new_account_path}"
+        | New User Account
+
+.row
+  .col-sm-12
+    = simple_form_for @user, url: accounts_path, html: { class: "panel form-horizontal" } do |f|
+      .panel-heading
+        span.panel-title
+          i class="panel-title-icon fa fa-user"
+          | Account Information
+
+      .panel-body
+        = render "shared/form_errors", resource: @user
+
+        .form-group
+          = f.label :email, class: "col-sm-2 control-label"
+          .col-sm-10
+            = f.input_field :email, class: "form-control", pattern: false
+
+        .form-group
+          = f.label :password, class: "col-sm-2 control-label"
+          .col-sm-10
+            = f.input_field :password, class: "form-control", pattern: false
+
+        .form-group
+          = f.label :password_confirmation, class: "col-sm-2 control-label"
+          .col-sm-10
+            = f.input_field :password_confirmation, class: "form-control", pattern: false
+
+        .form-group
+          = f.label :permission_level, class: "col-sm-2 control-label"
+          .col-sm-10
+            = f.input_field :permission_level, as: :select, collection: ["Admin", "Regular"], include_blank: false, class: "form-control"
+            p.help-block Admin users can create and delete other users.
+
+        .form-group style="margin-bottom: 0;"
+          .col-sm-offset-2.col-sm-10
+            button.btn.btn-labeled.btn-primary name="commit" type="submit" value="Submit"
+              span class="btn-label icon fa fa-save"
+              '  Submit

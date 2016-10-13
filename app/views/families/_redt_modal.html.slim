@@ -1,0 +1,48 @@
+#redt-modal.modal.fade
+  .modal-dialog
+    = form_for @family, url: update_redetermination_family_path(@family) do |f|
+      .modal-content
+        .modal-header
+          button.close data-dismiss="modal" type="button"
+            span aria-hidden="true"  &times;
+            span.sr-only Close
+          h4.modal-title Re-determinate application
+        .modal-body
+          .form-group
+            label.text-right.col-sm-4 Re-determination Status
+            .col-sm-8 ng-init="status='Complete and Re-approved'"
+              = f.select :status, options_for_select([['Complete and Re-approved', 'completed'], ['Denied', 'denied']]), {},
+                                  { class: "form-control", "ng-model"=>"status" }
+          #reject-section ng-if="status=='denied'"
+            .form-group
+              label.text-right.col-sm-4 Denied Reason
+              .col-sm-8
+                = f.select :rejection_reason, Family.rejection_reason.options, {}, {class: 'form-control'}
+            .form-group
+              label.text-right.col-sm-4 Deny Note
+              .col-sm-8
+                = f.text_area :rejection_note, class: "form-control", rows: 5
+          #income-section ng-if="status!='denied'"
+            .form-group
+              label.text-right.col-sm-4 Re-determination Active Date
+              .col-sm-8
+                = f.text_field :redetermination_active_at, class: "form-control datepicker", placeholder: 'mm/dd/yyyy', value: @family.redetermination_active_at.try(:to_date)
+            .form-group
+              label.text-right.col-sm-4 First Parent Income
+              .col-sm-8
+                = f.fields_for :first_parent, @family.first_parent do |p|
+                  = p.hidden_field :id
+                  = p.text_field :first_job_annual_income, class: "form-control", placeholder: "First Job Income"
+                  = p.text_field :second_job_annual_income, class: "form-control", placeholder: "Second Job Income"
+                  = p.text_field :third_job_annual_income, class: "form-control", placeholder: "Third Job Income"
+            - if @family.second_parent
+              .form-group
+                label.text-right.col-sm-4 First Parent Income
+                .col-sm-8
+                  = f.fields_for :second_parent, @family.second_parent do |p|
+                    = p.hidden_field :id
+                    = p.text_field :first_job_annual_income, class: "form-control", placeholder: "First Job Income"
+                    = p.text_field :second_job_annual_income, class: "form-control", placeholder: "Second Job Income"
+                    = p.text_field :third_job_annual_income, class: "form-control", placeholder: "Third Job Income"
+        .modal-footer
+          button.btn.btn-primary Submit

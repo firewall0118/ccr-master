@@ -1,0 +1,38 @@
+- checkboxes = defined?(checkboxes) ? checkboxes : false
+
+table.table.table-striped.table-hover
+  thead
+    tr
+      - if checkboxes
+        th.th-1-fixes
+          label
+            input.check-all type="checkbox"
+            span &ensp; All
+      th ID
+      th Child
+      th Provider
+      th Funder
+      th Weekly Parent Fee
+      th Weekly Subsidy
+      th Start date
+      th End date
+  tbody
+    - for contract in contracts
+      - decorate(contract.family)
+      tr data-view-link=edit_contract_path(contract)
+        - if checkboxes
+          td.td-1-fixes
+            label
+              input.contract-checkbox type="checkbox" data-id=contract.family.id
+        td= contract.id
+        td= link_to contract.child.full_name, [contract.family, contract.child]
+        td
+          - if contract.provider
+            = link_to contract.provider.name, provider_path(contract.provider)
+        td
+          - if contract.funder
+            = link_to contract.funder.name, funder_path(contract.funder)
+        td= number_to_currency contract.weekly_parent_fee
+        td= number_to_currency contract.weekly_subsidy
+        td= contract.start_date.to_s
+        td= contract.end_date.to_s

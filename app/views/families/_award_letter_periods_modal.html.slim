@@ -1,0 +1,14 @@
+#award-letter-periods-modal.modal.fade
+  .modal-dialog
+    = form_for @family, url: award_letter_family_path(@family, format: :pdf), html: { method: :get, target: :_blank } do |f|
+      .modal-content
+        .modal-header
+          button.close data-dismiss="modal" type="button"
+            span aria-hidden="true"  &times;
+            span.sr-only Close
+          h4.modal-title Print Award Letter
+        .modal-body
+          p Please select award period.
+          = select_tag :contract_id, options_for_select(@family.contracts.map { |c| [c.period, c.id] }), class: "form-control"
+        .modal-footer
+          button.btn.btn-primary Print

@@ -1,0 +1,22 @@
+h3.text-center Report of Remaining Balance per Funder
+br
+
+h4 #{Date.today.to_s}
+br
+
+table.table
+  thead
+    tr
+      th Name
+      th Funded
+      th Spent
+      th Balance
+      th Children Funded
+  tbody
+    - @funders.each do |funder|
+      tr
+        td= funder.name
+        td= number_to_currency funder.funded
+        td= number_to_currency funder.spent
+        td= number_to_currency funder.balance
+        td= funder.children_funded

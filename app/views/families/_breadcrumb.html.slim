@@ -1,0 +1,25 @@
+- active = [active] unless active.is_a? Array
+- active.map! &:to_s
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li class=("active" if active.include?("home"))
+      a href="#{root_path}"
+        | Home
+
+      li class=("active" if active.include?("families"))
+        a href="#{families_path}"
+          | Families
+
+    - if @family
+      li class=("active" if active.include?("family"))
+        a href="#{family_path(@family)}"
+          = @family.name
+
+      li class=("active" if active.include?("children"))
+        a href="#{family_path(@family)}"
+          | Children
+
+      - if @child.id
+        li class=("active" if active.include?("child"))
+          a href="#{family_child_path(@family, @child)}"
+            | #{@child.full_name}

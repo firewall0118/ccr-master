@@ -1,0 +1,102 @@
+.panel
+  .panel-heading
+      span.panel-title
+        | Levels of Care
+  .panel-body
+    = f.fields_for :provider_rates, f.object.active_provider_rate  do |rate|
+      .form-group
+        = rate.label :part_time_toddler_weekly_rate, class: "col-sm-4 control-label"
+        .col-sm-8
+          .input-group
+            span.input-group-addon $
+            = rate.input_field :part_time_toddler_weekly_rate, class: "form-control"
+      .form-group
+        = rate.label :full_time_toddler_weekly_rate, class: "col-sm-4 control-label"
+        .col-sm-8
+          .input-group
+            span.input-group-addon $
+            = rate.input_field :full_time_toddler_weekly_rate, class: "form-control"
+      .form-group
+        = rate.label :part_time_infant_weekly_rate, class: "col-sm-4 control-label"
+        .col-sm-8
+          .input-group
+            span.input-group-addon $
+            = rate.input_field :part_time_infant_weekly_rate, class: "form-control"
+      .form-group
+        = rate.label :full_time_infant_weekly_rate, class: "col-sm-4 control-label"
+        .col-sm-8
+          .input-group
+            span.input-group-addon $
+            = rate.input_field :full_time_infant_weekly_rate, class: "form-control"
+      .form-group
+        = rate.label :part_time_preschool_weekly_rate, class: "col-sm-4 control-label"
+        .col-sm-8
+          .input-group
+            span.input-group-addon $
+            = rate.input_field :part_time_preschool_weekly_rate, class: "form-control"
+      .form-group
+        = rate.label :full_time_preschool_weekly_rate, class: "col-sm-4 control-label"
+        .col-sm-8
+          .input-group
+            span.input-group-addon $
+            = rate.input_field :full_time_preschool_weekly_rate, class: "form-control"
+      .form-group
+        = rate.label :part_time_school_weekly_rate, class: "col-sm-4 control-label"
+        .col-sm-8
+          .input-group
+            span.input-group-addon $
+            = rate.input_field :part_time_school_weekly_rate, class: "form-control"
+      .form-group
+        = rate.label :full_time_school_weekly_rate, class: "col-sm-4 control-label"
+        .col-sm-8
+          .input-group
+            span.input-group-addon $
+            = rate.input_field :full_time_school_weekly_rate, class: "form-control"
+      / .form-group
+      /   = rate.label :has_sibling_discounts, class: "col-sm-4 control-label", label: "Has sibling discounts?"
+      /   .col-sm-8
+      /     = rate.input_field :has_sibling_discounts, class: "form-control" , as: :boolean
+
+      / hr.discount_information
+
+      / .form-group.discount_information
+      /   = rate.label :full_time_discount_is_fixed, class: "col-sm-4 control-label", label: "Fulltime discount is fixed?"
+      /   .col-sm-8
+      /     = rate.input_field :full_time_discount_is_fixed, class: "form-control" , as: :boolean
+
+      / .form-group.discount_information#full_time_flat_discount.default_hidden
+      /   = rate.label :full_time_sibling_discount_flat_amount_cents, class: "col-sm-4 control-label", label: "Flat Discount"
+      /   .col-sm-8
+      /     .input-group
+      /       span.input-group-addon $
+      /       = rate.input_field :full_time_sibling_discount_flat_amount_cents, class: "form-control"
+
+      / .form-group.discount_information#full_time_percentage_discount
+      /   = rate.label :full_time_sibling_discount_percentage, class: "col-sm-4 control-label", label: "Percentage Discount"
+      /   .col-sm-8
+      /     = rate.input_field :full_time_sibling_discount_percentage, class: "form-control"
+
+      / hr.discount_information
+
+      / .form-group.discount_information
+      /   = rate.label :part_time_discount_is_fixed, class: "col-sm-4 control-label", label: "Parttime discount is fixed?"
+      /   .col-sm-8
+      /     = rate.input_field :part_time_discount_is_fixed, class: "form-control" , as: :boolean
+
+      / .form-group.discount_information.default_hidden#part_time_flat_discount.default_hidden
+      /   = rate.label :part_time_sibling_discount_flat_amount, class: "col-sm-4 control-label", label: "Flat Part-Time Discount"
+      /   .col-sm-8
+      /     .input-group
+      /       span.input-group-addon $
+      /       = rate.input_field :part_time_sibling_discount_flat_amount_cents, class: "form-control"
+      / .form-group.discount_information#full_time_percentage_discount
+      /   = rate.label :part_time_sibling_discount_percentage, class: "col-sm-4 control-label", label: "Percentage Part-Time Discount"
+      /   .col-sm-8
+      /     = rate.input_field :part_time_sibling_discount_percentage, class: "form-control"
+
+      / hr.discount_information
+
+      / .form-group.discount_information
+      /   = rate.label :additional_discount_notes, class: "col-sm-4 control-label"
+      /   .col-sm-8
+      /     = rate.input_field :additional_discount_notes, class: "form-control", rows: 10

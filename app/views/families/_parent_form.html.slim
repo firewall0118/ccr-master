@@ -1,0 +1,163 @@
+= f.fields_for "#{parent}_parent", instance_variable_get("@#{parent}_parent") || Parent.new(order: parent) do |p|
+  .panel
+    .panel-heading
+      span.panel-title
+        i class="panel-title-icon fa fa-user"
+        | #{parent.titleize} Parent Information
+
+    .panel-body
+      .form-group
+        = p.label :first_name, class: "col-sm-4 control-label", label: "First Name"
+        .col-sm-8
+          = p.input_field :first_name, class: "form-control", pattern: false, required: is_required
+      .form-group
+        = p.label :last_name, class: "col-sm-4 control-label", label: "Last Name"
+        .col-sm-8
+          = p.input_field :last_name, class: "form-control", pattern: false, required: is_required
+      .form-group
+        = p.label :date_of_birth, class: "col-sm-4 control-label", label: "Date of Birth"
+        .col-sm-8
+          = p.date_field :date_of_birth, class: "form-control"
+      .form-group
+        = p.label :gender, class: "col-sm-4 control-label", label: "Gender"
+        .col-sm-8
+          = p.input_field :gender, as: :select, collection: ChildcareResource::GENDERS , include_blank: false, class: "form-control"
+      .form-group
+        = p.label :race, class: "col-sm-4 control-label", label: "Race"
+        .col-sm-8
+          = p.input_field :race, as: :select, collection: ChildcareResource::RACES, include_blank: false, class: "form-control"
+      .form-group
+        = p.label :marital_status, class: "col-sm-4 control-label", label: "Marital Status"
+        .col-sm-8
+          = p.input_field :marital_status, as: :select, collection: ChildcareResource::MARITAL_STATUSES , include_blank: false, class: "form-control"
+      .form-group
+        = p.label :has_custody, class: "col-sm-4 control-label", label: "Has Custody"
+        .col-sm-8
+          = p.input_field :has_custody, class: "form-control", pattern: false
+      hr
+      .form-group
+        = p.label :street, class: "col-sm-4 control-label", label: "Street"
+        .col-sm-8
+          = p.input_field :street, class: "form-control", required: is_required
+      .form-group
+        = p.label :city, class: "col-sm-4 control-label", label: "City"
+        .col-sm-8
+          = p.input_field :city, class: "form-control", required: is_required
+      .form-group
+        = p.label :state, class: "col-sm-4 control-label", label: "State"
+        .col-sm-8
+          = p.input_field :state, class: "form-control", required: is_required
+      .form-group
+        = p.label :zip, class: "col-sm-4 control-label", label: "Zip Code"
+        .col-sm-8
+          = p.input_field :zip, class: "form-control", required: is_required
+      .form-group
+        = p.label :county_id, class: "col-sm-4 control-label", label: "County of Residence"
+        .col-sm-8
+          = p.input_field :county_id, as: :select, collection: County.all ,include_blank: false, class: "form-control"
+      .form-group
+        = p.label :phone_number_home, class: "col-sm-4 control-label", label: "Home phone number"
+        .col-sm-8
+          = p.input_field :phone_number_home, class: "form-control", pattern: false
+      .form-group
+        = p.label :phone_number_mobile, class: "col-sm-4 control-label", label: "Mobile phone number"
+        .col-sm-8
+          = p.input_field :phone_number_mobile, class: "form-control", pattern: false
+      .form-group
+        = p.label :phone_number_work, class: "col-sm-4 control-label", label: "Work phone number"
+        .col-sm-8
+          = p.input_field :phone_number_work, class: "form-control", pattern: false
+      .form-group
+        = p.label :email, class: "col-sm-4 control-label"
+        .col-sm-8
+          = p.input_field :email, class: "form-control", pattern: false
+
+  br
+  .panel-heading
+    span.panel-title
+      i class="panel-title-icon fa fa-folder-open"
+      | #{parent.titleize} Parent Work Information
+
+  .panel-body
+
+    ul#first-parent-jobs-tabs.nav.nav-tabs
+      li.active
+        a href="#first-parent-first-job" data-toggle="tab" First Job
+      li
+        a href="#first-parent-second-job" data-toggle="tab" Second Job
+      li
+        a href="#first-parent-third-job" data-toggle="tab" Third Job
+
+    .tab-content.tab-content-bordered
+      .tab-pane.fade.active.in#first-parent-first-job
+        .form-group
+          = p.label :first_job_employer_name, class: "col-sm-4 control-label", label: "Employer Name"
+          .col-sm-8
+            = p.input_field :first_job_employer_name, class: "form-control", pattern: false, required: is_required
+
+        .form-group
+          = p.label :first_job_weekly_availability, class: "col-sm-4 control-label", label: "Average Hours Worked"
+          .col-sm-8
+            = p.input_field :first_job_weekly_availability, class: "form-control", pattern: false, required: is_required
+
+        .form-group
+          = p.label :first_job_hourly_rate, class: "col-sm-4 control-label", label: "Hourly Rate"
+          .col-sm-8
+            .input-group
+              span.input-group-addon $
+              = p.input_field :first_job_hourly_rate, class: "form-control"
+
+        .form-group
+          = p.label :first_job_annual_income, class: "col-sm-4 control-label", label: "Annual Income"
+          .col-sm-8
+            .input-group
+              span.input-group-addon $
+              = p.input_field :first_job_annual_income, class: "form-control", pattern: false, required: is_required
+      .tab-pane.fade#first-parent-second-job
+        .form-group
+          = p.label :second_job_employer_name, class: "col-sm-4 control-label", label: "Employer Name"
+          .col-sm-8
+            = p.input_field :second_job_employer_name, class: "form-control", pattern: false
+
+        .form-group
+          = p.label :second_job_weekly_availability, class: "col-sm-4 control-label", label: "Average Hours Worked"
+          .col-sm-8
+            = p.input_field :second_job_weekly_availability, class: "form-control", pattern: false
+
+        .form-group
+          = p.label :second_job_hourly_rate, class: "col-sm-4 control-label", label: "Hourly Rate"
+          .col-sm-8
+            .input-group
+              span.input-group-addon $
+              = p.input_field :second_job_hourly_rate, class: "form-control"
+
+        .form-group
+          = p.label :second_job_annual_income, class: "col-sm-4 control-label"
+          .col-sm-8
+            .input-group
+              span.input-group-addon $
+              = p.input_field :second_job_annual_income, class: "form-control"
+      .tab-pane.fade#first-parent-third-job
+        .form-group
+          = p.label :third_job_employer_name, class: "col-sm-4 control-label", label: "Employer Name"
+          .col-sm-8
+            = p.input_field :third_job_employer_name, class: "form-control", pattern: false
+
+        .form-group
+          = p.label :third_job_weekly_availability, class: "col-sm-4 control-label", label: "Average Hours Worked"
+          .col-sm-8
+            = p.input_field :third_job_weekly_availability, class: "form-control", pattern: false
+
+        .form-group
+          = p.label :third_job_hourly_rate, class: "col-sm-4 control-label", label: "Hourly Rate"
+          .col-sm-8
+            .input-group
+              span.input-group-addon $
+              = p.input_field :third_job_hourly_rate, class: "form-control"
+
+        .form-group
+          = p.label :third_job_annual_income, class: "col-sm-4 control-label", label: "Annual Income"
+          .col-sm-8
+            .input-group
+              span.input-group-addon $
+              = p.input_field :third_job_annual_income, class: "form-control"

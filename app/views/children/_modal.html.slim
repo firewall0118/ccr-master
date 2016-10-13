@@ -1,0 +1,75 @@
+#child-modal.modal.fade
+  .modal-dialog
+    .modal-content
+      form name="childForm" novalidate=""
+        .modal-header
+          button.close data-dismiss="modal" type="button"
+            span aria-hidden="true"  &times;
+            span.sr-only Close
+          h4.modal-title ng-if="child.id == null" Create Child
+          h4.modal-title ng-if="child.id != null" Update Child
+        .modal-body
+          div class="alert alert-{{alert.type}}" ng-repeat="alert in alerts"
+            button.close aria-hidden="true" data-dismiss="alert" type="button"  &times;
+            | {{alert.msg}}
+
+          .form-group.clearfix
+            label.col-sm-3 First Name
+            .col-sm-7
+              input.form-control type="text" ng-model="child.first_name" autofocus="autofocus" name="first_name" required=""
+              small.text-danger ng-show="childForm.last_name.$invalid && submitted"
+                | Last name can't be blank
+          .form-group.clearfix
+            label.col-sm-3 Last Name
+            .col-sm-7
+              input.form-control type="text" ng-model="child.last_name" name="last_name" required=""
+              small.text-danger ng-show="childForm.last_name.$invalid && submitted"
+                | Last name can't be blank
+          .form-group.clearfix
+            label.col-sm-3 Date of Birth
+            .col-sm-7
+              input.form-control type="text" ng-model="child.date_of_birth" placeholder="mm/dd/yyyy" ui-mask="99/99/9999" name="date_of_birth" required=""
+              small.text-danger ng-show="childForm.last_name.$invalid && submitted"
+                | Date of birth can't be blank
+          .form-group.clearfix
+            label.col-sm-3 Gender
+            .col-sm-7
+              select.form-control ng-model="child.gender" name="first_name" required=""
+                option value="Male" Male
+                option value="Female" Female
+              small.text-danger ng-show="childForm.last_name.$invalid && submitted"
+                | Gender can't be blank
+          .form-group.clearfix
+            label.col-sm-3 Relationship
+            .col-sm-7
+              select.form-control ng-model="child.relationship" name="relationship" required=""
+                option value="Son"  Son
+                option value="Daughter"  Daughter
+                option value="Neice"  Neice
+                option value="Nephew"  Nephew
+                option value="Grandson"  Grandson
+                option value="Granddaughter"  Granddaughter
+                option value="Other"  Other
+              small.text-danger ng-show="childForm.last_name.$invalid && submitted"
+                | Relationship can't be blank
+          .form-group.clearfix
+            label.col-sm-3 Race
+            .col-sm-7
+              select.form-control ng-model="child.race" name="race" required=""
+                option value="White" White
+                option value="Black" Black
+                option value="A. Indian" A. Indian
+                option value="Asian" Asian
+                option value="Hawaiian N." Hawaiian N.
+                option value="Hispanic" Hispanic
+                option value="Other" Other
+              small.text-danger ng-show="childForm.last_name.$invalid && submitted"
+                | Race can't be blank
+        .modal-footer
+          / Create
+          div ng-if="child.id == null"
+            a.btn.btn-primary ng-click="createChild($event)" Save
+            a.btn.btn-default ng-click="createChild($event,false)" Save and Add Another Child
+          / Update
+          div ng-if="child.id != null"
+            a.btn.btn-primary ng-click="updateChild($event)" Save

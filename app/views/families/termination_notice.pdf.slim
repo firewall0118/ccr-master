@@ -1,0 +1,95 @@
+= render "shared/ccr_header"
+css:
+  table td{
+    height: 22px !important;
+    padding: 0 !important;
+  }
+h4.text-center
+  strong SCCP Notice of Child Care Termination
+p
+  | Date:
+  u  &nbsp;#{Date.today.to_s}&nbsp;
+p= @family.first_parent.full_name
+p= @family.first_parent.street
+p= @family.first_parent.city_state_zip
+
+br
+p
+  b Section I:
+  |  Your certificate for child care subsidy will terminate on _________________ for the following children:
+br
+div style="margin-left: 30px; width: 60%"
+  table.table
+    tr style="border: none"
+      td.text-center style="border: none"
+        | Child's Name
+      td.text-center style="border: none"
+        | Provider's Name
+      td.text-center style="border: none"
+        | Provider's Address
+    - contract = @family.contracts.current.last
+    - if contract
+      tr.text-center style="border: none"
+        td style="border: 1px solid #333"= contract.child.full_name
+        td style="border: 1px solid #333"= contract.provider.name
+        td style="border: 1px solid #333"= contract.provider.mailing_address
+
+p
+  b Section II:
+  |  The reason for your termination is:
+div style="margin-left: 30px"
+  p
+    | ( )  You are not employed.
+  p
+    | ( )  You failed to re-determine your child care financial assistance.
+  p
+    | ( )  Your income exceeds maximum allowable income.
+  p
+    | ( )  You failed to pay parental fees to your provider.  Amount due $___________ (You must bring a receipt to continue services.)
+  p
+    | ( )  You requested that your child withdraw from SCCP.
+  p
+    | ( )  Child transferred to another provider who is not registered with SCCP.
+  p
+    | ( )  Your provider requested termination of care.  (Call our office to discuss a new provider.)
+  p
+    | ( )  You are not working the minimum hours required per week.
+  p
+    | ( )  You moved and left no forwarding address.
+  p
+    | ( )  The child listed above is no longer in your household.
+  p
+    | ( )  The requested information was not provided (see Section III).
+  p
+    | ( )  Your child is not attending child care consistently.
+  p
+    | ( )  You have demonstrated a pattern of non compliance.
+  p
+    | ( )  Other______________________________________________________________________________
+p
+  b Section III:
+  |  The information needed to determine or continue your eligibility was not provided. Verifications needed:
+div style="margin-left: 30px"
+  p
+    | ( )  Last 4 weeks pay stubs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( ) Employment Verification Form &nbsp;&nbsp; ( ) SSI or SSA Verification
+  p
+    | ( )  Name of Chosen Provider &nbsp;&nbsp;( ) Copy of Receipt for fees paid &nbsp;&nbsp;&nbsp;&nbsp;( ) Medical Information
+  p
+    | ( )  See the attached Request for Information Form
+  p
+    | ( )  Birth Certificate for ________________________________________________
+  p
+    | ( )  Social Security Card for _____________________________________________
+  p
+    | ( )  Other __________________________________________________________________________________________
+br
+p This notice supersedes any other notice.  Childcare Resources will not continue payment for these children after the above date.
+br
+br
+br
+.pull-left style="width: 300px"
+  p.text-center ___________________________
+  p.text-center Childcare Resources
+.pull-left style="width: 300px"
+  p.text-center ___________________________
+  p.text-center Phone Number

@@ -1,0 +1,22 @@
+#main-navbar.navbar.navbar-inverse role="navigation"
+  button#main-menu-toggle type="button"
+    i.navbar-icon.fa.fa-bars.icon
+    span.hide-menu-text HIDE MENU
+
+  .navbar-inner
+    .navbar-header
+      a.navbar-brand href="#{root_path}"
+        | Childcare Resources
+
+      button.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#main-navbar-collapse"
+        i.navbar-icon.fa.fa-bars
+
+    #main-navbar-collapse.collapse.navbar-collapse.main-navbar-collapse
+      div
+        ul.nav.navbar-nav
+          li
+            = link_to "Home", root_path
+
+        .right.clearfix
+          - if user_signed_in?
+            = render "layouts/logged_in_user_widget"

@@ -1,0 +1,50 @@
+h3.text-center Provider Payment Due Report
+br
+
+h4 #{Date.today.to_s}
+br
+
+table.table.data
+  thead
+    tr
+      th Vendor ID
+      th Provider Name
+      th Child Name
+      th Date of Service
+      th Funder
+      th.w-sm Eligibility Activity
+      th.w-sm Care Level
+      th.w-sm Care Provided
+      th.w-sm Provider Rate
+      th.w-sm Parent Fee
+      th.w-sm Gross Reimb.
+      th.w-sm Less Fees
+      th.w-sm Net Reimb.
+  tbody
+    - total_amount = total_parent_fee = total_subsidy = 0
+    - @contracts.each do |contract|
+      - year = params[:year].to_i
+      - month = params[:month].to_i
+      tr
+        td= contract.provider.vendor_number
+        td= link_to contract.provider.name, contract.provider
+        td= link_to contract.child.full_name, [contract.family, contract.child]
+        td= Date::MONTHNAMES[month]
+        td= contract.funder.abbreviation
+        td= contract.days_attended(year, month)
+        td= contract.child.age_group.try(:name)
+        td= contract.is_full_time ? "FT" : "PT"
+        td= number_to_currency contract.weekly_rate
+        td= number_to_currency contract.weekly_parent_fee
+        td= number_to_currency contract.total_amount(year, month)
+        td= number_to_currency contract.total_parent_fee(year, month)
+        td= number_to_currency contract.total_subsidy(year, month)
+        - total_amount += contract.total_amount(year, month)
+        - total_parent_fee += contract.total_parent_fee(year, month)
+        - total_subsidy += contract.total_subsidy(year, month)
+  tfoot
+    tr
+      td.text-right.strong colspan="10" TOTAL
+      td.strong= number_to_currency total_amount
+      td.strong= number_to_currency total_parent_fee
+      td.strong= number_to_currency total_subsidy

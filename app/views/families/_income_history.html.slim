@@ -1,0 +1,19 @@
+- data = family_income_history(@family)
+.panel
+  .panel-heading
+    span.panel-title
+      i class="panel-title-icon fa fa-th-list"
+      | Income History
+  .panel-body
+    table.table
+      thead
+        tr
+          th Updated Date
+          th Active Date
+          th Income
+        - data[0].each_with_index do |date, i|
+          - next if date[1].nil?
+          tr
+            td= date[0].to_date
+            td= date[1].to_date
+            td= data[1][i]

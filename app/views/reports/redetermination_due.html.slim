@@ -1,0 +1,56 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb.pull-left
+    li
+      a href="#{root_path}"
+        | Home
+    li.active Re-determination Due Report
+- content_for :actions do
+  a.btn.btn-info.btn-labeled href="#{redetermination_due_reports_path(params: params, format: :csv)}"
+    span.btn-label.fa.fa-print
+    span  Export to CSV
+div
+  form.form-group action="#{redetermination_due_reports_path}" method="get"
+    .row
+      .col-sm-2.text-right style="padding-top: 5px"
+        span Select Month
+      .col-sm-2
+        = select_tag :year, options_for_select((Date.today.year-2)..Date.today.year, params[:year]), {class: "form-control"}
+      .col-sm-2
+        = select_month params[:month].to_i, {field_name: "month", prefix: ''}, {class: "form-control"}
+      .pull-left
+        button.btn.btn-primary
+          span Search
+  .panel.colourable
+    table.table.table-hover.table-bordered
+      thead
+        tr
+          th ID
+          th Parents
+          th Children
+          th Funders
+          th Providers
+          th Annual Income
+          th Redetermination Due Date
+          th
+      tbody
+        - @families.each do |family|
+          tr class="#{cycle("even", "odd")}"
+            td= family.id
+            td
+              = family.first_parent.try(:full_name)
+              - if family.first_parent.try(:has_custody)
+                | &emsp;
+                i.fa.fa-shield title="This parent has custody."
+              = family.second_parent.try(:full_name)
+              - if family.second_parent.try(:has_custody)
+                | &emsp;
+                i.fa.fa-shield title="This parent has custody."
+            td= family.children.map(&:full_name).join(", ")
+            td= family.contracts.map(&:funder).map(&:name).join(", ")
+            td= family.providers.pluck(:name).uniq.join(', ')
+            td= number_to_currency family.annual_income, precision: 0
+            td= family.redetermination_due_date
+            td
+              = link_to redetermination_notice_family_path(family, format: :pdf), target: :_blank do
+                i.fa.fa-download
+

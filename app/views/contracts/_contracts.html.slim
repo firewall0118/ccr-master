@@ -1,0 +1,66 @@
+br
+h4 Active Contracts
+table.table.table-hover
+  thead
+    tr
+      th Family
+      th Child
+      th Provider
+      th Funder
+      th Weekly Parent Fee
+      th Weekly Subsidy
+      th Discount
+      th Status
+      th Start date
+      th End date
+      - if editable == true
+        th style="width: 250px"
+  tbody
+    tr ng-repeat="contract in contracts | filter: {state:'!Past'}"
+      td
+        div ng-bind="contract.family.name"
+        .text-danger ng-if="contract.status == 'inactive'" (Terminated)
+      td ng-bind="contract.child.full_name"
+      td ng-bind="contract.provider.name"
+      td ng-bind="contract.funder.name"
+      td ng-bind="contract.weekly_parent_fee | currency"
+      td ng-bind="contract.weekly_subsidy | currency"
+      td ng-bind="contract.discount | currency"
+      td ng-bind="contract.state"
+      td ng-bind="contract.start_date"
+      td ng-bind="contract.end_date"
+      - if editable == true
+        td
+          a.btn.btn-default ng-click="transferContract(contract)" Transfer
+          a.btn.btn-info ng-click="editContract(contract)" Edit
+          a.btn.btn-danger ng-click="deleteContract(contract)" Delete
+
+h4 Past Contracts
+table.table.table-hover
+  thead
+    tr
+      th ID
+      th Child
+      th Provider
+      th Funder
+      th Weekly Parent Fee
+      th Weekly Subsidy
+      th Discount
+      th Status
+      th Start date
+      th End date
+  tbody
+    tr ng-repeat="contract in contracts | filter: {state:'Past'}"
+      td ng-bind="contract.id"
+      td
+        div ng-bind="contract.child.full_name"
+        .text-danger ng-if="contract.status == 'inactive'" (Terminated)
+      td ng-bind="contract.provider.name"
+      td ng-bind="contract.funder.name"
+      td ng-bind="contract.weekly_parent_fee | currency"
+      td ng-bind="contract.weekly_subsidy | currency"
+      td ng-bind="contract.discount | currency"
+      td ng-bind="contract.state"
+      td ng-bind="contract.start_date"
+      td ng-bind="contract.end_date"
+          a.btn.btn-danger ng-click="deleteContract(contract)" Delete

@@ -1,0 +1,82 @@
+#main-menu role="navigation"
+  #main-menu-inner
+    ul.navigation
+      li
+        a href=root_path
+          i class="menu-icon fa fa-dashboard"
+          span class="mm-text" Dashboard
+
+      li
+        a href="#{families_path}"
+          i class="menu-icon fa fa-group"
+          span class="mm-text" Families
+
+      - if current_user.admin?
+        li
+          a href="#{providers_path}"
+            i class="menu-icon fa fa-building-o"
+            span class="mm-text" Providers
+
+        li
+          a href="#{new_attendance_path}"
+            i class="menu-icon fa fa-edit"
+            span class="mm-text" Add Monthly Attendance Data
+
+        li
+          a href="#{funders_path}"
+            i class="menu-icon fa fa-money"
+            span class="mm-text" Funders
+
+        / li
+        /   a href="#{contracts_path}"
+        /     i class="menu-icon fa fa-file"
+        /     span class="mm-text" Assignments
+
+        li
+          a href="#{accounts_path}"
+            i class="menu-icon fa fa-lock"
+            span class="mm-text" User Accounts
+
+        li
+          a href="#{settings_path}"
+            i class="menu-icon fa fa-cog"
+            span class="mm-text" Settings
+
+      li class="mm-dropdown"
+        a href="#"
+          i class="menu-icon fa fa-bar-chart-o"
+          span class="mm-text" Reports
+        ul
+          li
+            a href="/reports/family_average_income"
+              span class="mm-text" Average Family Income Per Funding Source
+          / li
+          /   a href="/reports/balance_remaining_per_funder"
+          /     span class="mm-text" Balance Remaining Per Funding Source Report
+          li
+            a href="/reports/children_per_provider"
+              span class="mm-text" Children Per Provider Report
+          li
+            a href="/reports/fiscal_year"
+              span class="mm-text" Fiscal Year Report
+          li
+            a href="/reports/funding_source_historical_contract"
+              span class="mm-text" Funding Source Historical Contract Report
+          li
+            a href="/reports/provider_payment_due"
+              span class="mm-text" Monthly Provider Payment Due Report
+          li
+            a href="/reports/provider_payment"
+              span class="mm-text" Monthly Provider Payment Report
+          li
+            a href="/reports/termination"
+              span class="mm-text" Termination Report
+          li
+            a href="/reports/redetermination_due"
+              span class="mm-text" Re-determination Due Report
+          li
+            a href="/reports/reimbursement"
+              span class="mm-text" Reimbursement Report
+          / li
+          /   a href="/reports/payouts"
+          /     span class="mm-text" Payouts Report

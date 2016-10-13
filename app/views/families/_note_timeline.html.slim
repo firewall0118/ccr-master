@@ -1,0 +1,11 @@
+- if @family.family_notes.present?
+  .timeline
+    - @family.family_notes.where(category: category).order("created_at ASC").each do |note|
+      .tl-entry
+        .tl-icon.bg-info
+          i.fa.fa-comment
+
+        .panel.tl-body
+          a href="#" #{note.user.email}
+          '  at #{note.created_at.to_s}
+          .text-sm style="margin-top: 10px;"= note.content

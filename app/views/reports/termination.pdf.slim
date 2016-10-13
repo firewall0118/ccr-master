@@ -1,0 +1,45 @@
+h3.text-center Re-determination Report
+br
+
+h4 #{Date.today.to_s}
+br
+
+table.table
+  thead
+    tr
+      th ID
+      th Application Date
+      th First Parent
+      th Second Parent
+      th Funder
+      th Number of Children
+      th Annual Income
+      th Parent Fee
+      th Redetermination Due Date
+  tbody
+    - @families.each do |family|
+      tr class="#{cycle("even", "odd")}"
+        td= family.id
+        td= family.created_at.to_date.to_s
+        td
+          = family.first_parent.full_name
+          - if family.first_parent.has_custody?
+            | &emsp;
+            i.fa.fa-shield title="This parent has custody."
+        td
+          = family.second_parent.try(:full_name)
+          - if family.second_parent.try(:has_custody)
+            | &emsp;
+            i.fa.fa-shield title="This parent has custody."
+        td= family.contracts.map(&:funder).map(&:name)
+        td
+          ' #{family.children_count}
+        td= number_to_currency family.annual_income, precision: 0
+        td= family.parent_fees
+        td
+          - if family.status.denied?
+            span.text-danger Denied&nbsp;
+          - elsif family.redetermination_due_date.nil?
+            ' N/A
+          - else
+            '  #{family.redetermination_due_date.to_s}

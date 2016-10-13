@@ -1,0 +1,30 @@
+.panel
+  .panel-heading
+      span.panel-title
+        i class="panel-title-icon fa fa-user"
+        | Provider Information
+  .panel-body
+    = render "shared/form_errors", resource: @provider
+
+    .form-group
+      = f.label :name, class: "col-sm-4 control-label"
+      .col-sm-8
+        = f.input_field :name, class: "form-control", pattern: false
+    .form-group
+      = f.label :provider_type_id, class: "col-sm-4 control-label", label: "Provider Type"
+      .col-sm-8
+        = f.input_field :provider_type_id, collection: ProviderType.order("name ASC"), include_blank: false, class: "form-control"
+    .form-group
+      = f.label :vendor_number, class: "col-sm-4 control-label"
+      .col-sm-8
+        = f.input_field :vendor_number, class: "form-control"
+    .form-group
+      = f.label :director_name, class: "col-sm-4 control-label"
+      .col-sm-8
+        = f.input_field :director_name, class: "form-control", pattern: false
+    .form-group
+      = f.label :assistant_director_name, class: "col-sm-4 control-label"
+      .col-sm-8
+        = f.input_field :assistant_director_name, class: "form-control", pattern: false
+
+

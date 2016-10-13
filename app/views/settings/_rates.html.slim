@@ -1,0 +1,36 @@
+table.table.table-striped.table-bordered.table-hover
+  thead
+    tr
+      th.text-center
+      th.text-center colspan="2" Infant
+      th.text-center colspan="2" Toddlers
+      th.text-center colspan="2" Preschool
+      th.text-center colspan="2" School Age
+      th
+    tr
+      th.text-center.strong Region
+      th.text-center.strong Full Time
+      th.text-center.strong Part Time
+      th.text-center.strong Full Time
+      th.text-center.strong Part Time
+      th.text-center.strong Full Time
+      th.text-center.strong Part Time
+      th.text-center.strong Full Time
+      th.text-center.strong Part Time
+      th
+  tbody.text-center
+    - rates.each do |rate|
+      tr
+        td= rate.county.name
+        td= number_to_currency rate.full_time_infant_weekly_rate
+        td= number_to_currency rate.part_time_infant_weekly_rate
+        td= number_to_currency rate.full_time_toddler_weekly_rate
+        td= number_to_currency rate.part_time_toddler_weekly_rate
+        td= number_to_currency rate.full_time_preschool_weekly_rate
+        td= number_to_currency rate.part_time_preschool_weekly_rate
+        td= number_to_currency rate.full_time_school_weekly_rate
+        td= number_to_currency rate.part_time_school_weekly_rate
+        td
+          a.btn.btn-info data-toggle="modal" data-target="#rate-#{rate.id}"
+            i.fa.fa-edit
+          = render "rate_modal", rate: rate

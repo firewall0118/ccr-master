@@ -1,0 +1,37 @@
+table.table
+  thead
+    tr
+      th Vendor ID
+      th Provider Name
+      th Child Name
+      th.w-sm Eligibility Activity
+      th.w-sm Care Level
+      th.w-sm Care Provided
+      th.w-sm Funder
+      th.w-sm Provider Rate
+      th.w-sm Parent Fee
+      th.w-sm Gross Reimb.
+      th.w-sm Less Fees
+      th.w-sm Net Reimb.
+  tbody
+    - @payouts.each do |payout|
+        - next if payout.provider_attendance.nil?
+        - contract = payout.contract
+        - year = payout.provider_attendance.year
+        - month = payout.provider_attendance.month
+        tr
+          td= contract.provider.vendor_number
+          td= contract.provider.name
+          td= contract.child.full_name
+          td= Date::MONTHNAMES[month]
+          td= contract.funder.abbreviation
+          td= payout.created_at.to_date
+          td= contract.days_attended(year, month)
+          td= contract.child.age_group.try(:name)
+          td= contract.is_full_time ? "FT" : "PT"
+          td= number_to_currency contract.weekly_rate
+          td= number_to_currency contract.weekly_parent_fee
+          td= number_to_currency contract.total_amount(year, month)
+          td= number_to_currency contract.total_parent_fee(year, month)
+          td= number_to_currency contract.total_subsidy(year, month)
+  br

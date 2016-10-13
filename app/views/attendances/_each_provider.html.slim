@@ -1,0 +1,93 @@
+css:
+  #eav-table, #eav-table td, #eav-table th{
+    border-color: #666 !important;
+    min-width: 25px;
+    text-align: center;
+  }
+.main-title.text-center
+  h4
+    | EAVS MUST BE SUBMITTED BY THE 5TH OF THE MONTH FOLLOWING ATTENDANCE FOR PROCESSING.
+    |  IF THE 5TH FALLS ON A HOLIDAY, SATURDAY OR SUNDAY
+    |  THE DUE DATE WILL BE THE FOLLOWING WORK DAY.
+br
+br
+- months = (1..Date.today.month).to_a - provider.closed_months
+- provider_attendances = provider.provider_attendances.includes(contract: [:child, :family, :provider]).by_year(Date.today.year).by_month(months)
+
+- months.each do |month|
+  - @month = Date.new(Date.today.year, month)
+  - @days = (@month.beginning_of_month..@month.end_of_month).to_a
+
+  - contracts = provider_attendances.select{|a| a.month == month }.map(&:contract)
+
+  - next unless contracts.present?
+  .inline.provider-title
+    div #{provider.name} #{provider.vendor_number}
+    div= provider.street
+    div= provider.mailing_address
+  .inline.eav-title.text-center
+    h4 ENROLLMENT/ATTENDANCE VERIFICATION FORM
+    p #{@month.strftime("%B").upcase} #{@month.year}
+  .inline.ccr-title.text-right
+    div= @ccr.name
+    div= @ccr.address
+    div= @ccr.location
+  br
+  table#eav-table.table.table-bordered.text-center
+    thead
+      tr style="border-color: #333"
+        th Name
+        th Age
+        th Parent Fee
+        th Funder
+        - @days.each do |day|
+          th
+            div= day.strftime("%a")[0]
+            div= day.mday
+        th Days Attended
+    tbody
+      - contracts.each do |contract|
+        tr style="height: 1.5em;"
+          td= contract.child.full_name
+          td= contract.child.current_age
+          td= number_to_currency contract.weekly_parent_fee
+          td= contract.funder.abbreviation
+          - @days.each do |day|
+            td
+              - if [0,6].include? day.wday
+                img width="100%" height="100%" src=image_url("stripe.png")
+          td
+
+  br
+  br
+  br
+.container-fluid
+  .row
+   .col-md-12.text-center
+     | PLEASE EXPLAIN WHEN A CHILD MISSES MORE THAN 5 DAYS WITHIN A MONTH
+br
+.container-fluid.bordered
+  .row
+   .col-md-12
+     u FOR EACH DAY CHILD ATTENDS, CODE AS FOLLOWS:
+  br
+  .row
+    .col-md-2.pull-left
+      div
+        | &bull; = PRESENT
+      div
+        | H = HOLIDAY
+    .col-md-2.pull-left
+      div
+        | T = TERMINATED
+      div
+        | E = CHILD START DATE
+    .col-md-2.pull-left
+      div
+        | A = ABSENT
+      div
+        | C = CLOSED
+    .col-md-6.pull-right
+      br
+      div
+        | AUTHORIZED SIGNATURE: _______________________________________

@@ -1,0 +1,26 @@
+h3.text-center Provider Payment Report
+br
+
+h4 #{Date.today.to_s}
+br
+
+table.table
+  thead
+    tr
+      th ID
+      th Name
+      th Address
+      th City
+      th State
+      th Zipcode
+      th Paid Amount
+  tbody
+    - @providers.each do |provider|
+      tr
+        td= provider.id
+        td= link_to provider.name, provider_path(provider)
+        td= provider.mailing_address_street
+        td= provider.mailing_address_city
+        td= provider.mailing_address_state
+        td= provider.mailing_address_zip
+        td= number_to_currency provider.paid_amount(params[:year].to_i, params[:month].to_i)

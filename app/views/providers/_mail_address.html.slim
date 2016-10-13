@@ -1,0 +1,22 @@
+.panel
+  .panel-heading
+      span.panel-title
+        i class="panel-title-icon fa fa-user"
+        | Mailing Address
+  .panel-body
+    .form-group
+      = f.label :mailing_address_street, class: "col-sm-4 control-label", label: "Address"
+      .col-sm-8
+        = f.input_field :mailing_address_street, class: "form-control", pattern: false
+    .form-group
+      = f.label :mailing_address_city, class: "col-sm-4 control-label", label: "City"
+      .col-sm-8
+        = f.input_field :mailing_address_city, class: "form-control", pattern: false
+    .form-group
+      = f.label :mailing_address_state, class: "col-sm-4 control-label", label: "State"
+      .col-sm-8
+        = f.input_field :mailing_address_state, class: "form-control", pattern: false
+    .form-group
+      = f.label :mailing_address_zip, class: "col-sm-4 control-label", label: "Zip Code"
+      .col-sm-8
+        = f.input_field :mailing_address_zip, class: "form-control", pattern: false

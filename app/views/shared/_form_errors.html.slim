@@ -1,0 +1,16 @@
+- if resource.errors.any?
+  .alert.alert-danger
+    p
+      strong Woops!
+      '  There were a few problems with the form.
+
+    ul
+      - resource.errors.each do |field, error|
+        li
+          strong= field.to_s.humanize.titleize
+          - if error.instance_of?(Array)
+            '  #{error.flatten.join(' ')}
+          - else
+            '  #{error}
+
+  .clearfix

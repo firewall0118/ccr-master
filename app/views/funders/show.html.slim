@@ -1,0 +1,69 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li
+      a href="#{funders_path}"
+        | Funders
+    li.active
+      a href="#{funder_path(@funder)}"
+        = @funder.name
+
+-# Scroll area is the last div
+div
+  .panel.colourable
+    .panel-heading
+      span.panel-title
+        i class="panel-title-icon fa fa-user"
+        | Funder Information
+
+    .panel-body
+      p
+        strong Name:
+        '  #{@funder.name}
+      p
+        strong Abbreviation:
+        '  #{@funder.abbreviation}
+      p
+        strong Address:
+        '  #{@funder.address}
+      p
+        strong Phone Number:
+        '  #{@funder.phone_number}
+      p
+        strong Contact Person:
+        '  #{@funder.contact_person}
+
+      hr
+
+      p
+        strong Maximum Family Size:
+        '  #{@funder.max_family_size}
+      hr
+
+      p
+        strong Supported counties:
+        - @funder.counties.each do |county|
+          ul
+            li  #{county.name}
+      hr
+
+      p
+        strong Total funded:
+        '  #{number_to_currency @funder.total_funded}
+  .funding_cycles
+    legend Funding Cycles
+    = render "funding_cycles"
+
+  br
+  .contracts ng-controller="ContractCtrl" ng-init="funder_id=#{@funder.id}; getContracts();"
+    legend Contracts
+    a.btn.btn-labeled.btn-primary ng-click="addContract()"
+      span class="btn-label icon fa fa-plus"
+      '  Assign Child to Provider and Funding Source
+    = link_to 'Export to PDF', contracts_path(funder_id: @funder.id, format: :pdf), target: :_blank, class: 'btn btn-info'
+    = link_to 'Export to CSV', contracts_path(funder_id: @funder.id, format: :csv), target: :_blank, class: 'btn btn-info'
+
+    = render "contracts/contracts", editable: false
+    = render "contracts/modal"

@@ -1,0 +1,66 @@
+.panel
+  .panel-heading
+      span.panel-title
+        i class="panel-title-icon fa fa-user"
+        | License Information
+  .panel-body
+    .form-group
+      = f.label :provider_license_type, class: "col-sm-4 control-label", label: "Licensed Provider?"
+      .col-sm-8
+        p
+        - if @provider.provider_license_type == "Licensed Provider"
+          label.radio-inline
+            input.px type="radio" name="provider[provider_license_type]" checked="checked" value="Licensed Provider"
+            span.lbl Licensed
+          label.radio-inline
+            input.px type="radio" name="provider[provider_license_type]" value="Licensed Exempt Provider"
+            span.lbl Exempt
+        - else
+          label.radio-inline
+            input.px type="radio" name="provider[provider_license_type]" value="Licensed Provider"
+            span.lbl Licensed
+          label.radio-inline
+            input.px type="radio" name="provider[provider_license_type]" checked="checked" value="Licensed Exempt Provider"
+            span.lbl Exempt
+
+    .form-group.license_information style="display: none;"
+      = f.label :license_number, class: "col-sm-4 control-label"
+      .col-sm-8
+        = f.input_field :license_number, class: "form-control"
+
+    .form-group.license_information style="display: none;"
+      = f.label :license_issue_date, class: "col-sm-4 control-label", label: "Issue date"
+      .col-sm-8
+        = f.date_field :license_issue_date, class: "form-control"
+
+    .form-group.license_information style="display: none;"
+      = f.label :license_expiration_date, class: "col-sm-4 control-label", label: "Expiration date"
+      .col-sm-8
+        = f.date_field :license_expiration_date, class: "form-control"
+
+    .form-group.license_exempt_information style="display: none;"
+      = f.label :license_exempt_expiration_date, class: "col-sm-4 control-label", label: "Exempt Expiration date"
+      .col-sm-8
+        = f.date_field :license_exempt_expiration_date, class: "form-control"
+
+javascript:
+  $(function() {
+    displayLicenseInformationForm();
+    $("input[type='radio'][name='provider[provider_license_type]']").change(function () {
+      displayLicenseInformationForm();
+    });
+
+    function displayLicenseInformationForm() {
+      var selectedLicenseType = $("input[type='radio'][name='provider[provider_license_type]']:checked");
+      if (selectedLicenseType.length > 0) {
+        var selectedVal = selectedLicenseType.val();
+        if (selectedVal == "Licensed Provider") {
+          $(".license_exempt_information").hide();
+          $(".license_information").fadeIn();
+        } else {
+          $(".license_information").hide();
+          $(".license_exempt_information").fadeIn();
+        }
+      }
+    }
+  });

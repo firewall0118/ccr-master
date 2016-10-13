@@ -1,0 +1,46 @@
+css:
+  body, p {
+    font-size: 14px;
+  }
+= render "shared/ccr_header"
+
+p= Date.today.to_s
+
+br
+br
+br
+p Dear #{@family.first_parent.full_name}
+
+br
+br
+
+p Your income does not meet the minimum income for #{@family.number_of_children.to_words} (#{@family.number_of_children}) in a household. Your income must be at least $25,393. The annual income from your two jobs total #{number_to_currency @family.annual_income}. Unfortunately you do not meet our minimum annual income. Your child care financial assistance will end #{l(Date.today.beginning_of_month + 1.month)}.
+
+br
+
+p Currently, we are not accepting applications. When we begin accepting applications, you may reapply for assistance again when you meet all of our requirements.
+
+br
+
+p If you have any questions, feel free to contact me.
+
+br
+br
+
+p Sincerely,
+
+br
+br
+
+br #{current_user.full_name}
+br #{current_user.job}
+br Supplemental Child Care Program (SCCP)
+br Childcare Resources
+br #{current_user.email}
+br #{current_user.phone_number} ext. #{current_user.phone_ext}
+
+br
+br
+br
+/ p cc: Our Lady of Lourdes Kindergarten
+/ p.underline style="padding-left: 30px" #{}

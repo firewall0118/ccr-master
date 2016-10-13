@@ -1,0 +1,40 @@
+.page-header
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li
+      a href="#{providers_path}"
+        | Providers
+    li
+      a href="#{provider_path(@provider)}"
+        = @provider.name
+    li.active
+      a href="todo"
+        | Provider rates history
+
+a.btn.btn-labeled.btn-primary href="#{new_provider_provider_rate_path(@provider)}" style="margin-bottom: 18px;"
+  span class="btn-label icon fa fa-plus"
+  '  New Rates
+
+.table-primary
+  table.table.table-striped.table-bordered.table-hover border="0" cellpadding="0" cellspacing="0"
+    thead
+      tr
+        th ID
+        th Current Rate
+        / th Start date
+        / th End date
+        / th style="width: 115px;" Actions
+    tbody
+      - for rate in @provider.provider_rates
+        tr class="#{cycle("even", "odd")}"
+          td= rate.id
+          td= rate.current?
+          / td= rate.effective_date.strftime("%B %d")
+          / - if rate.end_date.nil?
+          /   td= rate.end_date
+          / - else
+          /   td= rate.end_date.strftime("%B %d")
+          / td
+

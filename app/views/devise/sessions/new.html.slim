@@ -1,0 +1,27 @@
+.auth-form.center
+  = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "panel panel-dark" }) do |f|
+    .panel-heading
+      h4.text-center CHILDCARE RESOURCES
+      p.text-center SIGN IN TO CONTINUE
+    .panel-body
+      - if alert
+        .alert.alert-danger
+          = alert
+
+      .form-group
+        = f.input :email, input_html: { class: "form-control" }, autofocus: true
+
+      .form-group
+        = f.input :password, input_html: { class: "form-control" }
+
+      .form-group
+        .checkbox
+          label
+            = f.input_field :remember_me, class: "px", as: :boolean if devise_mapping.rememberable?
+            span class="lbl" Remember me
+
+      .form-group
+        button.btn.btn-labeled.btn-primary.col-sm-12 name="commit" type="submit" value="Submit"
+          '  Log In
+
+      = render "devise/shared/links"

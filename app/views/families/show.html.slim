@@ -1,0 +1,163 @@
+- family_name = "#{@family.first_parent.last_name} " +\
+  "#{@family.second_parent.try(:last_name)} Family"
+
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li
+      a href="#{families_path}"
+        | Families
+    li.active
+      a href=family_path(@family)
+        = family_name
+    li
+      a href="#"
+        | Children
+
+.row
+  .col-sm-12
+
+    .panel.colourable
+      .panel-heading
+        span.panel-title Family Application
+      .panel-body
+        = render "children/index"
+
+    .row
+      .col-md-8
+        .panel
+          .panel-heading
+            span.panel-title
+              i class="panel-title-icon fa fa-user"
+              | Parent Information
+          .panel-body
+            - unless @family.weekly_availability >= 35
+              .alert.alert-danger
+                p
+                  strong Warning!
+                  '  Family does not meet minimum hours of work per week requirement.
+            - if !@family.is_within_income_scale? and @family.children_count > 0
+              .alert.alert-danger
+                p
+                  strong Warning!
+                  '  Family total income is outside of the eligibility scale.
+            .row
+              .col-sm-6
+                legend First Parent
+                = render "parent_info", parent: @family.first_parent
+              - if @family.second_parent
+                .col-sm-6
+                  legend Second Parent
+                  = render "parent_info", parent: @family.second_parent
+            #notes
+              br
+              legend Comments
+              ul#first-parent-jobs-tabs.nav.nav-tabs
+                li.active
+                  a href="#eligibility-comment" data-toggle="tab" Eligibility
+                li
+                  a href="#award-letter-comment" data-toggle="tab" Family Award
+                li
+                  a href="#provider-letter-comment" data-toggle="tab" Provider Letter
+                li
+                  a href="#inner-comment" data-toggle="tab" Internal Comments
+
+              .tab-content.tab-content-bordered
+                .tab-pane.fade.active.in#eligibility-comment
+                  = render "note_timeline", category: 'eligibility'
+                  = render "new_note", category: 'eligibility'
+                .tab-pane.fade#award-letter-comment
+                  = render "note_timeline", category: 'award_letter'
+                  = render "new_note", category: 'award_letter'
+                .tab-pane.fade#provider-letter-comment
+                  = render "note_timeline", category: 'provider_letter'
+                  = render "new_note", category: 'provider_letter'
+                .tab-pane.fade#inner-comment
+                  = render "note_timeline", category: 'inner'
+                  = render "new_note", category: 'inner'
+
+      .col-md-4
+        .panel
+          .panel-heading
+            span.panel-title
+              i class="panel-title-icon fa fa-users"
+              | Family Summary
+
+          .panel-body
+            p
+              strong Case ID:
+              '  #{@family.id}
+            p
+              strong Address:
+              '  #{@family.first_parent.street} #{@family.first_parent.city_state_zip}
+            p
+              strong Number of Children:
+              '  #{@family.children.size}
+            p
+              strong First Parent:
+              '  #{@family.first_parent.full_name}
+            p
+              strong Second Parent:
+              '  #{@family.second_parent.try(:full_name)}
+            p
+              strong Number of Children:
+              '  #{@family.children.size}
+            - if @family.status != 'denied'
+              p
+                strong Redetermination Due Date:
+                - if @family.redetermination_due_date.nil?
+                  ' N/A
+                - else
+                  '  #{@family.redetermination_due_date.to_s}
+                  br
+                  br
+                  span
+                    i  Need to re-determine if this family still qualifies?
+                  a onclick="$('#redt-modal').modal('show');"  Click Here
+              p
+                strong Status:&nbsp;
+                = @family.status.text
+              - if @family.status.redeterminated?
+                p
+                  strong Re-determined At: &nbsp;
+                  = @family.redeterminated_at
+                p
+                  strong Re-determination Active Date:&nbsp;
+                  = @family.redetermination_active_at.try(:to_date)
+            .panel-footer
+              - if @family.status != 'denied'
+                = link_to edit_family_path(@family), class: "btn btn-primary" do
+                  span.btn-label.icon.fa.fa-pencil
+                  '  Edit
+                = link_to family_path(@family), class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure to delete this family?" } do
+                  span.btn-label.icon.fa.fa-times
+                  '  Delete
+
+              .btn-group style="margin-left:3px"
+                button.btn.btn-info type="button" data-toggle="dropdown"
+                  span.btn-label.icon.fa.fa-print
+                  '  Print
+                  span.caret
+                ul.dropdown-menu role="menu"
+                  - if @family.status.denied?
+                    li= link_to "Termination Letter", termination_notice_family_path(@family, format: :pdf), target: :_blank
+                    li
+                      a data-toggle="modal" data-target="#award-letter-periods-modal" Print Award Letter
+                    li
+                      a data-toggle="modal" data-target="#provider-letter-periods-modal" Print Provider Letter
+                  - elsif @family.eligible?
+                    li
+                      a data-toggle="modal" data-target="#award-letter-periods-modal" Print Award Letter
+                    li
+                      a data-toggle="modal" data-target="#provider-letter-periods-modal" Print Provider Letter
+                    li
+                      a href="#{redetermination_notice_family_path(@family, format: :pdf)}" target="_blank" Re-Determination Notice
+                    li
+                      a href="#{information_request_family_path(@family, format: :pdf)}" target="_blank" Information Request
+        = render 'income_history'
+= render "provider_letter_periods_modal"
+- if @family.status != 'denied'
+  = render "redt_modal"
+  = render "award_letter_periods_modal"

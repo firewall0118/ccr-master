@@ -1,0 +1,37 @@
+// Place all the styles related to the Home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.center {
+  margin: 0 auto;
+  float: none;
+}
+
+.auth-form {
+  width: 320px;
+  overflow-y: hidden !important;
+}
+
+.panel-dark > .panel-heading {
+  background: #333;
+  color: white;
+}
+
+.btn + .btn {
+  margin-left: 3px;
+}
+
+.chart-wrapper {
+  position: relative;
+  padding-top: 20px;
+  background: white;
+  overflow:hidden;
+}
+
+.pie-chart {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width:100%;
+  height:100%;
+}

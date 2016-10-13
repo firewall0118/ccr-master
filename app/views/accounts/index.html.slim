@@ -1,0 +1,34 @@
+- content_for :breadcrumbs do
+  ul.breadcrumb
+    li
+      a href="#{root_path}"
+        | Home
+    li.active
+      a href="#{accounts_path}"
+        | User Accounts
+
+- content_for :actions do
+  a.btn.btn-labeled.btn-primary href="#{new_account_path}"
+    span class="btn-label icon fa fa-plus"
+    '  Create New Account
+
+.table-primary
+  table#jq-datatables-users.table.table-striped.table-bordered.table-hover border="0" cellpadding="0" cellspacing="0"
+    thead
+      tr
+        th ID
+        th Email
+        th Permission Type
+        th style="width: 155px;" Actions
+    tbody
+      - for user in User.all
+        tr class="#{cycle("even", "odd")}" data-view-link="#{account_path user}"
+          td= user.id
+          td= user.email
+          td= user.permission_level
+          td
+            .btn-group
+              = link_to edit_account_path(user), class: "btn btn-primary" do
+                i.fa.fa-edit
+              = link_to account_path(user), class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure to delete this account?" } do
+                i.fa.fa-trash-o
